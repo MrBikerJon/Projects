@@ -1,5 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class MazeSolver {
 
@@ -8,40 +11,12 @@ public class MazeSolver {
 	//1 = path
 	//2 = destination
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		
 		ArrayList<Maze> mazes = new ArrayList<Maze>();
 		
-		Maze m = new Maze();
-		
-		int[][] maze = {
-			{1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-			{0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0},
-			{0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
-			{1, 1, 1, 2, 1, 1, 0, 1, 0, 1, 0},
-			{0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
-			{0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1}
-		};
-		m.maze = maze;
-		m.start = new Position(4,8);
-		m.path = new LinkedList<Position>();
-
-		Maze n = new Maze();
-		
-		int[][] n_maze = {
-			{1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-			{0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0},
-			{0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
-			{1, 1, 1, 2, 1, 1, 0, 1, 0, 1, 0},
-			{0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
-			{0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1}
-		};
-		n.maze = n_maze;
-		n.start = new Position(4,2);
-		n.path = new LinkedList<Position>();
-		
-		mazes.add(m);
-		mazes.add(n);
+		Scanner in = new Scanner(new File("mazes.txt"));
+		System.out.println(in.nextLine());
 		
 		int i = 0;
 		while(i < mazes.size()) {
