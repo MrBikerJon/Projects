@@ -4,9 +4,9 @@ public class Paint {
      */
 
     // initialise instance variables
-    String brand;
-    String colour;
-    String reference;
+    private String brand;
+    private String colour;
+    private String reference;
 
     /**
      * Constructor for object of type Paint
@@ -25,7 +25,7 @@ public class Paint {
 
     /**
      * Getter for brand
-     * @return brand
+     * @return the brand of the paint
      */
 
     public String getBrand()
@@ -36,7 +36,7 @@ public class Paint {
 
     /**
      * Getter for colour
-     * @return colour
+     * @return the colour of the paint
      */
 
     public String getColour()
@@ -47,7 +47,7 @@ public class Paint {
 
     /**
      * Getter for reference
-     * @return reference
+     * @return the reference number of the paint
      */
 
     public String getReference()
@@ -87,4 +87,15 @@ public class Paint {
         brand = aReference;
     }
 
+
+    /** Override the standard toString method
+     *
+     * @return a string showing the brand, colour and reference of the paint
+     */
+
+    @Override
+    public String toString()
+    {
+        return("Brand: " + brand + ", colour: " + colour + ", reference: " + reference);
+    }
 }
