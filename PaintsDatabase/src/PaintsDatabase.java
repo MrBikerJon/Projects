@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class PaintsDatabase {
 
-    private static int selection;
-    private static ArrayList<Paint> paintsDatabase = new ArrayList<Paint>();
+    private static ArrayList<Paint> paintsDatabase = new ArrayList<>();
 
     public static void main(String[] args) {
 
+        populatePaintsDatabase();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -17,14 +17,14 @@ public class PaintsDatabase {
         System.out.println("Please input your selection:");
 
         while(scanner.hasNext()) {
-            selection = scanner.nextInt();
+            int selection = scanner.nextInt();
 
             switch (selection) {
                 case 1:
                     printAllPaints();
                     break;
                 case 2:
-                    // code block
+                    addPaint();
                     break;
                 case 0:
                     scanner.close();
@@ -58,5 +58,31 @@ public class PaintsDatabase {
         for (Paint paint : paintsDatabase) {
             System.out.println(paint);
         }
+    }
+
+
+    /**
+     * Input a new paint into the database.
+     * Gets user input for Brand, Colour and Reference
+     * Sets up a new Paint, and adds it to the database.
+     */
+
+    private static void addPaint () {
+
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Please enter the brand:");
+        String aBrand = s.nextLine();
+        System.out.println("Please enter the colour:");
+        String aColour = s.nextLine();
+        System.out.println("Please enter the reference:");
+        String aReference = s.nextLine();
+
+        Paint newPaint = new Paint(aBrand, aColour, aReference);
+
+        paintsDatabase.add(newPaint);
+
+        s.close();
+
     }
 }
