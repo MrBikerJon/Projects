@@ -19,25 +19,17 @@ public class PaintsDatabase {
             int selection = scanner.nextInt();
 
             switch (selection) {
-                case 1:
-                    printAllPaints();
-                    break;
-                case 2:
-                    addPaint();
-                    break;
-                case 3:
-                    amendPaint();
-                    break;
-                    case 0:
+                case 0 -> {
                     saveDatabase(paintDatabase);
                     scanner.close();
                     System.exit(1);
-                    break;
-                case 4:
-                    searchPaints();
-                    break;
-                default:
-                    break;
+                }
+                case 1 -> printAllPaints();
+                case 2 -> addPaint();
+                case 3 -> amendPaint();
+                case 4 -> searchPaints();
+                default -> {
+                }
             }
 
             displayMenu();
@@ -48,16 +40,6 @@ public class PaintsDatabase {
     }
 
     /**
-     * populate the paintsDatabase with some paints
-     */
-
-    public static void populatePaintDatabase () {
-
-        openDatabase();
-    }
-
-
-    /**
      * Search for matching values in the database
      */
     private static void searchPaints() {
@@ -66,6 +48,8 @@ public class PaintsDatabase {
 
         System.out.println("Please enter the search phrase:");
         String searchValue = s.nextLine();
+
+        System.out.println("Here is a list of all paints that match the entered search phrase:");
 
         for (HashMap.Entry<String, Paint> set :
                 paintDatabase.entrySet()) {
