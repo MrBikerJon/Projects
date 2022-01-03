@@ -1,4 +1,6 @@
-public class Paint {
+import java.io.Serializable;
+
+public class Paint implements Serializable {
     /**
      * Holds the information about each pot of paint including brand, colour and reference
      */
