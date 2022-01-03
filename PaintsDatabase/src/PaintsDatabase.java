@@ -33,6 +33,9 @@ public class PaintsDatabase {
                     scanner.close();
                     System.exit(1);
                     break;
+                case 4:
+                    searchPaints();
+                    break;
                 default:
                     break;
             }
@@ -55,9 +58,25 @@ public class PaintsDatabase {
 
 
     /**
+     * Search for matching values in the database
+     */
+    private static void searchPaints() {
+
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Please enter the search phrase:");
+        String searchValue = s.nextLine();
+
+        for (HashMap.Entry<String, Paint> set :
+                paintDatabase.entrySet()) {
+            if (set.getValue().getColour().contains(searchValue) || set.getValue().getReference().contains(searchValue))
+                System.out.println(set);
+        }
+    }
+
+    /**
      * Print all the paints in the database
      */
-
     private static void printAllPaints () {
         paintDatabase.forEach(
                 (key, value)
@@ -70,7 +89,6 @@ public class PaintsDatabase {
      * Gets user input for Brand, Colour and Reference
      * Sets up a new Paint, and adds it to the database.
      */
-
     private static void addPaint () {
 
         Scanner s = new Scanner(System.in);
@@ -94,7 +112,6 @@ public class PaintsDatabase {
      * Gets user input for Brand, Colour and Reference
      * Sets up a new Paint, and adds it to the database.
      */
-
     private static void amendPaint () {
 
         Scanner s = new Scanner(System.in);
@@ -104,21 +121,21 @@ public class PaintsDatabase {
 
         String currentBrand = paintDatabase.get(aReference).getBrand();
         System.out.println("Current brand is " + paintDatabase.get(aReference).getBrand() +
-                ". Please enter the new brand, or 'Enter' to leave unchanged:\n");
+                ". Please enter the new brand, or 'Enter' to leave unchanged:");
         String newBrand = s.nextLine();
         if(!newBrand.equals("")) {
             paintDatabase.get(aReference).setBrand(newBrand);
             System.out.println("Successfully changed the brand from " + currentBrand + " to " + newBrand);
-        }
+        } else System.out.println("No changes made to brand.");
 
         String currentColour = paintDatabase.get(aReference).getColour();
         System.out.println("Current colour is " + currentColour +
-                ". Please enter the new colour, or 'Enter' to leave unchanged:\n");
+                ". Please enter the new colour, or 'Enter' to leave unchanged:");
         String newColour = s.nextLine();
         if(!newColour.equals("")) {
             paintDatabase.get(aReference).setColour(newColour);
             System.out.println("Successfully changed the colour from " + currentColour + " to " + newColour);
-        }
+        } else System.out.println("No changes made to colour.");
 
     }
 
@@ -134,6 +151,7 @@ public class PaintsDatabase {
         System.out.println("1. Print all paints");
         System.out.println("2. Enter a new paint");
         System.out.println("3. Amend an existing paint");
+        System.out.println("4. Search the database");
         System.out.println("0. Save database & Exit\n");
         System.out.println("Please input your selection:");
     }
