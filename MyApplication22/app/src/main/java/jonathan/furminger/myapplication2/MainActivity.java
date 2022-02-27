@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkIfGameOver() {
+
+    }
+
+    public void getInputAndOutputToText(View v) {
+
+        String s = ((TextView) findViewById(R.id.editTextTextPersonName)).getText().toString();
+        ((TextView) findViewById(R.id.textView2)).setText(s);
 
     }
 
