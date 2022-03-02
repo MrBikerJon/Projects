@@ -48,6 +48,11 @@ public class TextFragment extends Fragment {
         return fragment;
     }
 
+    public void changeTextProperties(int fontsize, String text) {
+        binding.textView2.setTextSize(fontsize);
+        binding.textView2.setText(text);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

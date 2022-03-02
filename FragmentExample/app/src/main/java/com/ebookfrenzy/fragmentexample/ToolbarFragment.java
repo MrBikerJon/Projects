@@ -2,20 +2,79 @@ package com.ebookfrenzy.fragmentexample;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import com.ebookfrenzy.fragmentexample.databinding.FragmentToolbarBinding;
+
+import android.content.Context;
+import android.widget.SeekBar;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ToolbarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ToolbarFragment extends Fragment {
+public class ToolbarFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+
+    private static int seekValue = 10;
+
+    ToolbarListener activityCallback;
+
+    public interface ToolbarListener {
+        public void onButtonClick(int position, String text);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            activityCallback = (ToolbarListener) context;
+        }
+        catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+            + " must implement ToolbarListener");
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.seekBar1.setOnSeekBarChangeListener(this);
+        binding.button1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                buttonClicked(v);
+            }
+        });
+    }
+
+    public void buttonClicked (View view) {
+        activityCallback.onButtonClick(seekValue,
+                binding.editText1.getText().toString());
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        seekValue = progress;
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar arg0) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar arg0) {
+
+    }
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
