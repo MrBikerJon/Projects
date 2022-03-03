@@ -1,9 +1,7 @@
 package com.ebookfrenzy.viewmodeldemo.ui.main;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import static com.ebookfrenzy.viewmodeldemo.BR.myViewModel;
 
 import android.os.Bundle;
 
@@ -33,9 +31,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.main_fragment, container, false);
-        binding.setLifecycleOwner(this);
+        binding = MainFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -49,6 +45,30 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        binding.setVariable(myViewModel, mViewModel);
+
+        final Observer<Float> resultObserver = new Observer<Float>() {
+            @Override
+            public void onChanged(@Nullable final Float result) {
+                binding.resultText.setText(String.format(Locale.ENGLISH, "%.2f", result));
+            }
+        };
+
+        mViewModel.getResult().observe(getViewLifecycleOwner(), resultObserver);
+
+        // TODO: Use the ViewModel
+
+        binding.convertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!binding.dollarText.getText().toString().equals("")) {
+                    mViewModel.setAmount(String.format(Locale.ENGLISH, "%s", binding.dollarText.getText()));
+                }
+                else {
+                    binding.resultText.setText("No Value");
+                }
+
+            }
+        });
+
     }
 }
