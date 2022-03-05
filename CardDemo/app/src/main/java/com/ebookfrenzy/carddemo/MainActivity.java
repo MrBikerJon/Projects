@@ -1,6 +1,5 @@
-package com.ebookfrenzy.tablayoutdemo;
+package com.ebookfrenzy.carddemo;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -13,19 +12,21 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.ebookfrenzy.tablayoutdemo.databinding.ActivityMainBinding;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.ebookfrenzy.carddemo.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements Tab1Fragment.OnFragmentInteractionListener,
-Tab2Fragment.OnFragmentInteractionListener, Tab3Fragment.OnFragmentInteractionListener,
-Tab4Fragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,35 +37,12 @@ Tab4Fragment.OnFragmentInteractionListener {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        layoutManager = new LinearLayoutManager(this);
+        binding.contentMain.recyclerView.setLayoutManager(layoutManager);
 
-        configureTabLayout();
-    }
+        adapter = new RecyclerAdapter();
+        binding.contentMain.recyclerView.setAdapter(adapter);
 
-    protected void configureTabLayout() {
-
-        for(int i = 0 ; i < 4; i++) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab());
-        }
-
-        final TabPagerAdapter adapter = new TabPagerAdapter(this,
-                binding.tabLayout.getTabCount());
-        binding.viewPager.setAdapter(adapter);
-
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-                (tab, position) -> tab.setText("Tab " + (position + 1) +
-                        " Item")).attach();;
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        
     }
 
     @Override
