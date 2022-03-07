@@ -1,4 +1,4 @@
-package jonathan.furminger.myapplication2;
+package jonathan.furminger.tictactoe;
 
 import android.content.Context;
 import android.util.AttributeSet;

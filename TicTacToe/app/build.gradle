@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "jonathan.furminger.myapplication2"
+        applicationId "jonathan.furminger.tictactoe"
         minSdk 21
         targetSdk 31
         versionCode 1

@@ -1,4 +1,4 @@
-package jonathan.furminger.myapplication2;
+package jonathan.furminger.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
-import jonathan.furminger.myapplication2.databinding.ActivityMainBinding;
+import jonathan.furminger.tictactoe.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -118,6 +118,25 @@ public class MainActivity extends AppCompatActivity {
             if(check == 600) {
                 result.setResult(true, ANDROID);
             }
+        }
+
+        // check diagonals
+        int check = playingField[0][0].getStatus() + playingField[1][1].getStatus() + playingField[2][2].getStatus();
+
+        if(check == 3) {
+            result.setResult(true, PLAYER);
+        }
+        else if(check == 600) {
+            result.setResult(true, ANDROID);
+        }
+
+        check = playingField[0][2].getStatus() + playingField[1][1].getStatus() + playingField[2][0].getStatus();
+
+        if(check == 3) {
+            result.setResult(true, PLAYER);
+        }
+        else if(check == 600) {
+            result.setResult(true, ANDROID);
         }
 
         return result;
