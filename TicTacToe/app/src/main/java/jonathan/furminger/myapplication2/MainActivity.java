@@ -10,9 +10,13 @@ import jonathan.furminger.myapplication2.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private final int PLAYER = 1;
+    private final int ANDROID = 2;
 
-    public int playerTurn = 1;
+    private ActivityMainBinding binding;
+    private Result result;
+
+    public int playerTurn = PLAYER;
     public int numberOfTurns = 0;
     public MyButton[][] playingField = new MyButton[3][3];
 
@@ -41,28 +45,49 @@ public class MainActivity extends AppCompatActivity {
 
         b.setEnabled(false);
 
-        if(playerTurn == 1) {
-            b.setText("O");
-            b.setStatus(1);
-            playerTurn = 2;
+        if(playerTurn == PLAYER) {
+            b.setText("X");
+            b.setStatus(PLAYER);
+            playerTurn = ANDROID;
         }
         else {
-            b.setText("X");
-            b.setStatus(2);
-            playerTurn = 1;
+            b.setText("O");
+            b.setStatus(200);
+            playerTurn = PLAYER;
         }
 
         numberOfTurns++;
-        if(isGameOver()) {
+        result = isGameOver();
+        if(result.getGameOver()) {
+            String gameResult;
+            switch(result.getWinningPlayer()) {
+                case PLAYER :
+                    gameResult = "You";
+                    break;
+                case ANDROID :
+                    gameResult = "Android";
+                    break;
+                default :
+                    gameResult = "No-one. It was a draw";
+
+            }
+            Snackbar.make(binding.layoutMain, "Game Over. The winner was: " + gameResult,
+                    Snackbar.LENGTH_LONG).setAction("OK", null).show();
             resetGame();
         }
     }
 
-    public boolean isGameOver() {
-        if(numberOfTurns == 9) return true;
+    public Result isGameOver() {
 
-        boolean isGameOver = false;
+        // 0 in winningPlayer field indicates no winner
+        Result result = new Result(false, 0);
 
+        // if 9 turns have been played, the result is a draw
+        if(numberOfTurns == 9) {
+            result.setResult(true, 0);
+        }
+
+        // check rows for complete line.  600 means player 2 won, 3 means player 1 won
         for(int row = 0; row < 3; row++) {
             int check = 0;
 
@@ -70,16 +95,36 @@ public class MainActivity extends AppCompatActivity {
                 check += playingField[row][col].getStatus();
             }
 
-            if(check == 3 || check == 6) {
-                isGameOver = true;
-                Snackbar.make(binding.layoutMain, "Winner player " + (check / 3) + " in row " + row, Snackbar.LENGTH_LONG).setAction("OK", null).show();
+            if(check == 3) {
+                result.setResult(true, PLAYER);
+            }
+
+            if(check == 600) {
+                result.setResult(true, ANDROID);
             }
         }
 
-        return isGameOver;
+        // check columns for complete line.  600 means player 2 won, 3 means player 1 won
+        for(int col = 0; col < 3; col++) {
+            int check = 0;
+
+            for(int row = 0; row < 3; row++) {
+                check += playingField[row][col].getStatus();
+            }
+
+            if(check == 3) {
+                result.setResult(true, PLAYER);
+            }
+            if(check == 600) {
+                result.setResult(true, ANDROID);
+            }
+        }
+
+        return result;
     }
 
     public void resetGame() {
+        playerTurn = PLAYER;
         numberOfTurns = 0;
         for(int row = 0; row < 3; row++) {
             for(int col = 0; col < 3; col++) {
@@ -88,6 +133,31 @@ public class MainActivity extends AppCompatActivity {
                 playingField[row][col].setStatus(0);
             }
         }
+    }
+
+     class Result {
+
+        private boolean isGameOver;
+        private int winningPlayer;
+
+        public Result(boolean isGameOver, int winningPlayer) {
+            this.isGameOver = isGameOver;
+            this.winningPlayer = winningPlayer;
+        }
+
+        public boolean getGameOver() {
+            return isGameOver;
+        }
+
+        public int getWinningPlayer() {
+            return winningPlayer;
+        }
+
+        public void setResult(boolean gameOver, int winningPlayer) {
+            isGameOver = gameOver;
+            this.winningPlayer = winningPlayer;
+        }
+
     }
 
 }
