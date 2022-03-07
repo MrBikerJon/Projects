@@ -1,5 +1,6 @@
 package com.ebookfrenzy.carddemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        binding.collapsingToolbar.setTitle("My Toolbar Title");
+        binding.collapsingToolbar.setContentScrimColor(Color.GREEN);
 
         layoutManager = new LinearLayoutManager(this);
         binding.contentMain.recyclerView.setLayoutManager(layoutManager);
