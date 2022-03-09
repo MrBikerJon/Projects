@@ -3,9 +3,14 @@ package jonathan.furminger.tictactoe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.concurrent.TimeUnit;
+
 import jonathan.furminger.tictactoe.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,41 +44,107 @@ public class MainActivity extends AppCompatActivity {
         playingField[2][2] = binding.button9;
     }
 
+    /**
+     * This method sets the value in a box, if the player clicks a box the
+     * text value of the box (myButton object) is set to "X" and the status is
+     * set to show that the player clicked the box. The method also currently
+     * checks if the game is over and handles the result.
+     * It is currently called by the "onClick" property of the button
+     * @param v
+     */
+
+
+
     public void setValue(View v) {
 
         MyButton b = (MyButton) v;
 
+        // Disable the button so it can't be clicked on again
         b.setEnabled(false);
 
-        if(playerTurn == PLAYER) {
-            b.setText("X");
-            b.setStatus(PLAYER);
-            playerTurn = ANDROID;
-        }
-        else {
-            b.setText("O");
-            b.setStatus(200);
-            playerTurn = PLAYER;
-        }
+        // Player's turn, set button to X
+        b.setText("X");
+        b.setStatus(PLAYER);
+
+        // check if still needed
+        playerTurn = ANDROID;
 
         numberOfTurns++;
         result = isGameOver();
         if(result.getGameOver()) {
-            String gameResult;
-            switch(result.getWinningPlayer()) {
-                case PLAYER :
-                    gameResult = "You";
-                    break;
-                case ANDROID :
-                    gameResult = "Android";
-                    break;
-                default :
-                    gameResult = "No-one. It was a draw";
+                Snackbar.make(binding.layoutMain, "Game Over. The winner was: " + checkWinningPlayer(),
+                        Snackbar.LENGTH_LONG).setAction("OK", null).show();
+                resetGame();
+        }
 
-            }
-            Snackbar.make(binding.layoutMain, "Game Over. The winner was: " + gameResult,
+        // update status
+        binding.textView.setText("My turn");
+
+
+        // make it look like Android is thinking
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        androidsTurn();
+
+        numberOfTurns++;
+        result = isGameOver();
+        if(result.getGameOver()) {
+            Snackbar.make(binding.layoutMain, "Game Over. The winner was: " + checkWinningPlayer(),
                     Snackbar.LENGTH_LONG).setAction("OK", null).show();
             resetGame();
+        }
+
+        // update status
+        binding.textView.setText("Your turn");
+
+    }
+
+    private String checkWinningPlayer() {
+        String gameResult;
+        switch(result.getWinningPlayer()) {
+            case PLAYER:
+                gameResult = "You";
+                break;
+            case ANDROID:
+                gameResult = "Me";
+                break;
+            default:
+                gameResult = "No-one. It was a draw";
+                break;
+        }
+
+        return gameResult;
+
+    }
+
+    private void androidsTurn() {
+
+
+
+        // Pick the first empty button
+        boolean foundAnEmptyBox = false;
+        Log.d("GameOver", "looking for an empty box");
+
+
+
+        for(int row = 0; row < 3 && !foundAnEmptyBox; row ++) {
+            for(int col = 0; col < 3 && !foundAnEmptyBox; col++) {
+                if(playingField[row][col].getStatus() == 0) {
+                    Log.d("GameOver", "found an empty box at " + row + ", " + col);
+                    playingField[row][col].setText("O");
+                    playingField[row][col].setEnabled(false);
+                    playingField[row][col].setStatus(200);
+
+                    // check if still needed
+                    playerTurn = PLAYER;
+
+                    foundAnEmptyBox = true;
+                }
+            }
         }
     }
 
@@ -154,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-     class Result {
+     static class Result {
 
         private boolean isGameOver;
         private int winningPlayer;
