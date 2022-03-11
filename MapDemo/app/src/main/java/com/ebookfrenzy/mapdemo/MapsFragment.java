@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ebookfrenzy.mapdemo.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,13 +21,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ebookfrenzy.mapdemo.databinding.FragmentMapsBinding;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int LOCATION_REQUEST_CODE = 101;
 
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
+    private @NonNull FragmentMapsBinding binding;
 
         /**
          * Manipulates the map once available.
@@ -159,7 +159,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+            binding = FragmentMapsBinding.inflate(inflater, container, false);
+            return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override
