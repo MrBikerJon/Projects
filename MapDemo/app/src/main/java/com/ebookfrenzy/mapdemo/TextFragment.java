@@ -1,5 +1,6 @@
 package com.ebookfrenzy.mapdemo;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -77,9 +78,12 @@ public class TextFragment extends Fragment {
      * Method uses the parameters coming from MainActivity to modify the TextView objects
      * (MapsFragment passes a marker object to MainActivity)
      */
-    public void changeText(String titleText) {
+    public void changeText(String titleText, String detailsText, Drawable drawable) {
         binding.textTitle.setText(titleText);
+        binding.textDetails.setText(detailsText);
+        binding.imageView.setImageDrawable(drawable);
     }
+
 
 
 }
