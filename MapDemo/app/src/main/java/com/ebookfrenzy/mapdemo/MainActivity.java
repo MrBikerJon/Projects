@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
+import com.ebookfrenzy.mapdemo.databinding.ActivityMainBinding;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.Marker;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity implements MapsFragment.OnMarkerClickListener {
+public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
 
     // TODO when device rotation noticed, if now in landscape, change constraints to match, but if in portrait change back
 
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements MapsFragment.OnMa
             "ancient harbour in North Devon.");
 
     private PointOfInterest[] pointsOfInterest = {fishermansCottage, redLionHotel};
+    private ActivityMainBinding binding;
 
 //    void addPointsOfInterest() {
 //        for(int i = 0; i < pointsOfInterest.length; i++) {
@@ -40,17 +44,21 @@ public class MainActivity extends AppCompatActivity implements MapsFragment.OnMa
      * obtain a reference to the fragment_text instance and call the changeText() method on the object
      * @param marker
      */
-    public void onMarkerClick(Marker marker) {
-        Log.i("mapDemo", "MainActivity, onMarkerClick has been called");
-        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text_fragment);
-        textFragment.changeText(marker.getTitle());
+    public boolean onMarkerClick(Marker marker) {
+        String newTitleText = marker.getTitle();
+        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
+        textFragment.changeText(newTitleText);
+
+        return true;
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
 //        addPointsOfInterest();
 

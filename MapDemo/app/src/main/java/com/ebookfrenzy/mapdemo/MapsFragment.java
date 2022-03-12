@@ -6,11 +6,9 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -69,19 +67,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     .build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-            // listener for Markers
+            // listener for markers
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    String markerName = marker.getTitle();
-                    //Context context = getContext();
-
-                    Log.i("mapDemo", "MapsFragment " + markerName);
-                    //Toast.makeText(context, "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
-                    Log.i("mapDemo", "MapsFragment, onMarkerClick has been called. Just about to call markerClicked.");
                     markerClicked(marker);
-                    Log.i("mapDemo", "MapsFragment, onMarkerClick has been called.");
-                    return false;
+                    return true;
                 }
             });
 
@@ -115,16 +106,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onAttach(Context context) {
-        Log.i("mapDemo", "MapsFragment, onAttach has been called.");
         super.onAttach(context);
-        Log.i("mapDemo", "MapsFragment, successfully called super.onAttach from onAttach");
         try {
-            Log.i("mapDemo", "MapsFragment, about to set activityCallback in onAttach");
             activityCallback = (GoogleMap.OnMarkerClickListener) context;
-            Log.i("mapDemo", "MapsFragment, successfully set activityCallback.");
         } catch (ClassCastException e) {
-            Log.i("mapDemo", "MapsFragment, about to throw exception.");
-            // throw new ClassCastException(context + " must implement OnMarkerClickListener");
+            throw new ClassCastException(context + " must implement OnMarkerClickListener");
         }
     }
 
@@ -132,8 +118,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
      * this method is called when the marker is clicked by the user
      */
     public void markerClicked(Marker marker) {
-        Log.i("mapDemo", "MapsFragment, markerClicked has been called.");
-
         activityCallback.onMarkerClick(marker);
     }
 
@@ -171,6 +155,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
