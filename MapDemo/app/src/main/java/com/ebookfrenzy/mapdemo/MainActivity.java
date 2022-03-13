@@ -2,8 +2,11 @@ package com.ebookfrenzy.mapdemo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +57,53 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        // code to determine screen orientation
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            ConstraintSet set = new ConstraintSet();
+            ConstraintLayout layout;
+
+            layout = (ConstraintLayout) findViewById(R.id.activity_main);
+
+            set.clone(layout);
+
+            // Break the connections
+            set.clear(R.id.map2, ConstraintSet.BOTTOM);
+            set.clear(R.id.text, ConstraintSet.TOP);
+            set.clear(R.id.map2, ConstraintSet.END);
+            set.clear(R.id.text, ConstraintSet.START);
+            // Set up new connections
+            set.connect(R.id.map2, ConstraintSet.END, R.id.activity_main, ConstraintSet.END, 0);
+            set.connect(R.id.text, ConstraintSet.START, R.id.activity_main, ConstraintSet.START, 0);
+            set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.text, ConstraintSet.TOP, 0);
+            set.connect(R.id.text, ConstraintSet.TOP, R.id.map2, ConstraintSet.BOTTOM, 0);
+
+            set.applyTo(layout);
+
+        } else {
+            ConstraintSet set = new ConstraintSet();
+            ConstraintLayout layout;
+
+            layout = (ConstraintLayout) findViewById(R.id.activity_main);
+
+            set.clone(layout);
+
+            // Break the connections
+            set.clear(R.id.map2, ConstraintSet.BOTTOM);
+            set.clear(R.id.text, ConstraintSet.TOP);
+            set.clear(R.id.map2, ConstraintSet.END);
+            set.clear(R.id.text, ConstraintSet.START);
+            // Set up new connections
+            set.connect(R.id.map2, ConstraintSet.END, R.id.text, ConstraintSet.START, 0);
+            set.connect(R.id.text, ConstraintSet.START, R.id.map2, ConstraintSet.END, 0);
+            set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.activity_main, ConstraintSet.BOTTOM, 0);
+            set.connect(R.id.text, ConstraintSet.TOP, R.id.activity_main, ConstraintSet.TOP, 0);
+
+            set.applyTo(layout);
+
+        }
 
 // TODO fix this spaghetti code - can't access the res/drawable folder from within the map fragment so have added it here temporarily
         Drawable myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.fishermanscottage, null);
