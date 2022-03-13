@@ -8,11 +8,14 @@ import androidx.core.content.res.ResourcesCompat;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.ebookfrenzy.mapdemo.databinding.ActivityMainBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
 
@@ -37,11 +40,22 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         // get the text and photo from the PointOfInterest object
         String newTitleText = poi.getPlaceTitle();
         String newDescriptionText = poi.getPlaceDescription();
-        Drawable newImage = poi.getPlacePhoto();
+        ArrayList<Drawable> photos = poi.getPlacePhotos();
 
-        // Set the text and photo in the Text fragment
         TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
-        textFragment.changeText(newTitleText, newDescriptionText, newImage);
+
+        // clear text and photos
+        textFragment.clearTextFragment();
+
+        // Set the text in the Text fragment
+        textFragment.addText(newTitleText);
+        textFragment.addText(newDescriptionText);
+
+        // Set the photo(s) in the Text fragment
+        for(int i = 0; i < photos.size(); i++) {
+            Drawable newImage = photos.get(i);
+            textFragment.addPhoto(newImage);
+        }
 
         return true;
     }
@@ -100,15 +114,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         Drawable myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.fishermanscottage, null);
         PointOfInterest poi = mMap.getPointOfInterest("Fisherman's Cottage");
-        poi.setPlacePhoto(myImage);
+        poi.addPlacePhoto(myImage);
+
 
         myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.redlionhotel, null);
+        Drawable myImage2 = ResourcesCompat.getDrawable(getResources(), R.drawable.redlioninnoldback, null);
         poi = mMap.getPointOfInterest("Red Lion Hotel");
-        poi.setPlacePhoto(myImage);
+        poi.addPlacePhoto(myImage);
+        poi.addPlacePhoto(myImage2);
 
         myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.rnli, null);
         poi = mMap.getPointOfInterest("RNLI Lifeboat Station");
-        poi.setPlacePhoto(myImage);
+        poi.addPlacePhoto(myImage);
     }
 
 }

@@ -5,15 +5,18 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PointOfInterest {
 
     private double latitude;
     private double longitude;
     private String placeTitle;
     private String placeDescription;
-    private Drawable placePhoto;
+    private ArrayList<Drawable> placePhoto;
 
-    public PointOfInterest(double latitude, double longitude, String placeTitle, String placeDescription, Drawable placePhoto) {
+    public PointOfInterest(double latitude, double longitude, String placeTitle, String placeDescription, ArrayList<Drawable> placePhoto) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.placeTitle = placeTitle;
@@ -37,12 +40,10 @@ public class PointOfInterest {
         return placeDescription;
     }
 
-    public Drawable getPlacePhoto() {
+    public ArrayList<Drawable> getPlacePhotos() {
         return placePhoto;
     }
 
-    public void setPlacePhoto(Drawable drawable) {
-        placePhoto = drawable;
-    }
+    public void addPlacePhoto(Drawable drawable) { placePhoto.add(drawable); }
 
 }

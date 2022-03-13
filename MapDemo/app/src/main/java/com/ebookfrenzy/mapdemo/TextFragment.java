@@ -5,9 +5,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ebookfrenzy.mapdemo.databinding.FragmentTextBinding;
 
@@ -74,16 +78,27 @@ public class TextFragment extends Fragment {
         binding = null;
     }
 
+    public void clearTextFragment() {
+        LinearLayout linearLayout = binding.linearLayout;
+        linearLayout.removeAllViews();
+    }
+
     /**
      * Method uses the parameters coming from MainActivity to modify the TextView objects
      * (MapsFragment passes a marker object to MainActivity)
      */
-    public void changeText(String titleText, String detailsText, Drawable drawable) {
-        binding.textTitle.setText(titleText);
-        binding.textDetails.setText(detailsText);
-        binding.imageView.setImageDrawable(drawable);
+    public void addText(String str) {
+        TextView newTextView = new TextView(binding.linearLayout.getContext());
+        newTextView.setText(str);
+        newTextView.setVisibility(View.VISIBLE);
+        binding.linearLayout.addView(newTextView);
     }
 
-
+    public void addPhoto(Drawable drawable) {
+        ImageView newImageView = new ImageView(binding.linearLayout.getContext());
+        newImageView.setImageDrawable(drawable);
+        newImageView.setVisibility(View.VISIBLE);
+        binding.linearLayout.addView(newImageView);
+    }
 
 }

@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,16 +40,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             "parlour is decorated with domestic treasures of the period, including simple cottage " +
             "furniture, colourful pictures and religious engravings. The tiny kitchen is plain but " +
             "full of period charm. Upstairs there are two small bedrooms, a sail loft, and an attic " +
-            "complete with straw mattresses.", null);
+            "complete with straw mattresses.", new ArrayList<Drawable>());
     private PointOfInterest redLionHotel = new PointOfInterest(50.99907263622343,
             -4.397884284339087, "Red Lion Hotel", "The Red Lion" +
             " Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s " +
-            "ancient harbour in North Devon.", null);
+            "ancient harbour in North Devon.", new ArrayList<Drawable>());
     private PointOfInterest RNLILifeboatStation = new PointOfInterest(50.99836498982892,
             -4.397444391999562, "RNLI Lifeboat Station", "Following " +
             "a terrible storm Clovelly’s first lifeboat station was built in 1870. Most of the " +
             "fishing fleet was destroyed with the loss of many lives. At only 33 feet long and " +
-            "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.", null);
+            "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.", new ArrayList<Drawable>());
 
     private Map<String,PointOfInterest> pointsOfInterest = new HashMap<>();
 
