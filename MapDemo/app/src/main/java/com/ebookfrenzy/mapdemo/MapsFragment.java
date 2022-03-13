@@ -2,12 +2,12 @@ package com.ebookfrenzy.mapdemo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,28 +31,29 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private static final int LOCATION_REQUEST_CODE = 101;
 
     private GoogleMap mMap;
-    private @NonNull
-    FragmentMapsBinding binding;
-
-//    Drawable myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.fishermanscottage, null);
+    private @NonNull FragmentMapsBinding binding;
 
     private PointOfInterest fishermansCottage = new PointOfInterest(50.99795648517228,
-            -4.399230743006255, "Fisherman's Cottage", "Here is" +
-            "some history about the cottage.", null);
+            -4.399230743006255, "Fisherman's Cottage", "Inside the " +
+            "cottage you can see how a Clovelly fisherman and his family lived in the 1930s. The " +
+            "parlour is decorated with domestic treasures of the period, including simple cottage " +
+            "furniture, colourful pictures and religious engravings. The tiny kitchen is plain but " +
+            "full of period charm. Upstairs there are two small bedrooms, a sail loft, and an attic " +
+            "complete with straw mattresses.", null);
     private PointOfInterest redLionHotel = new PointOfInterest(50.99907263622343,
             -4.397884284339087, "Red Lion Hotel", "The Red Lion" +
             " Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s " +
             "ancient harbour in North Devon.", null);
     private PointOfInterest RNLILifeboatStation = new PointOfInterest(50.99836498982892,
-            -4.397444391999562, "RNLI Lifeboat Station", "The RNLI" +
-            " Lifeboat station is ..... description ... ", null);
+            -4.397444391999562, "RNLI Lifeboat Station", "Following " +
+            "a terrible storm Clovelly’s first lifeboat station was built in 1870. Most of the " +
+            "fishing fleet was destroyed with the loss of many lives. At only 33 feet long and " +
+            "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.", null);
 
-    private PointOfInterest[] pointsOfInterest = {fishermansCottage, redLionHotel, RNLILifeboatStation};
+    private Map<String,PointOfInterest> pointsOfInterest = new HashMap<>();
 
-    private Map<Integer,PointOfInterest> poi = new HashMap<>();
-
-    public PointOfInterest getPointOfInterest(int i) {
-        return pointsOfInterest[i];
+    public PointOfInterest getPointOfInterest(String key) {
+        return pointsOfInterest.get(key);
     }
 
         /**
@@ -68,16 +69,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         public void onMapReady(GoogleMap googleMap) {
 
             mMap = googleMap;
-
-            // Add a marker in Clovelly and move the camera
-            LatLng clovelly = new LatLng(50.998128, -4.399118);
-            mMap.addMarker(new MarkerOptions().position(clovelly).title("Clovelly"));
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(clovelly));
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
             // add all the other markers
-            addPointsOfInterest();
+            addAllMarkers();
 
             // display user controls i.e., zoom in and out buttons, my location button etc
             UiSettings mapSettings;
@@ -87,7 +82,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mapSettings.setTiltGesturesEnabled(true);
             mapSettings.setRotateGesturesEnabled(true);
 
-            // zoom in on the map
+            // zoom in on the centre of Clovelly
+            LatLng clovelly = new LatLng(50.998128, -4.399118);
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(clovelly)
                     .zoom(19)
@@ -154,8 +150,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-            binding = FragmentMapsBinding.inflate(inflater, container, false);
-            return binding.getRoot();
+        binding = FragmentMapsBinding.inflate(inflater, container, false);
+
+        // TODO will need to put this somewhere else eventually
+        pointsOfInterest.put("Fisherman's Cottage", fishermansCottage);
+        pointsOfInterest.put("Red Lion Hotel", redLionHotel);
+        pointsOfInterest.put("RNLI Lifeboat Station", RNLILifeboatStation);
+
+        return binding.getRoot();
+
     }
 
     @Override
@@ -175,9 +178,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void addPointsOfInterest() {
-        for(int i = 0; i < pointsOfInterest.length; i++) {
-            addPointOfInterest(pointsOfInterest[i]);
+    private void addAllMarkers() {
+        for(PointOfInterest pointOfInterest : pointsOfInterest.values()) {
+            addPointOfInterestMarker(pointOfInterest);
         }
     }
 
@@ -185,7 +188,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
      * Method to add a marker to the map. Takes in a pointOfInterest object
      * @param pointOfInterest
      */
-    public void addPointOfInterest(PointOfInterest pointOfInterest) {
+    public void addPointOfInterestMarker(PointOfInterest pointOfInterest) {
 
         double latitude = pointOfInterest.getLatitude();
         double longitude = pointOfInterest.getLongitude();
@@ -196,10 +199,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         mMap.addMarker(new MarkerOptions()
                 .position(position).title(placeTitle).snippet(placeDescription));
-    }
-
-    public void setPointOfInterestPhoto(PointOfInterest pointOfInterest, Drawable drawable) {
-        pointOfInterest.setPlacePhoto(drawable);
     }
 
 }

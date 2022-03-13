@@ -3,6 +3,7 @@ package com.ebookfrenzy.mapdemo;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.util.Log;
 
 public class PointOfInterest {
 
