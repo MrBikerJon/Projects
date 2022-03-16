@@ -74,15 +74,13 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        setContentView(view);
+
+        ListFragment lf = new ListFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main, ListFragment.class, null, "list_tag")
-//                .setReorderingAllowed(true)
-//                .addToBackStack(null)
-                .commit();
-
+                .add(R.id.activity_main, lf, "list_tag")
+                .commitNow();
 
         Fragment mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
         Fragment textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
@@ -139,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
                     .show(listFragment)
                     .commit();
         }
+
+        setContentView(view);
 
     }
 
