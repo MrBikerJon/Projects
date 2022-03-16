@@ -4,13 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.res.ResourcesCompat;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import com.ebookfrenzy.mapdemo.databinding.ActivityMainBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -22,6 +24,13 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     // TODO place markers on map using SQL database
 
     private ActivityMainBinding binding;
+    private final int MAP_TEXT_FRAGMENTS = 0;
+    private final int LIST_FRAGMENT = 1;
+    private int currentFragment = LIST_FRAGMENT;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
 
     /**
      * obtain a reference to the fragment_text instance and call the changeText() method on the object
@@ -56,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
             Drawable newImage = photos.get(i);
             textFragment.addPhoto(newImage);
         }
-
         return true;
     }
 
@@ -68,29 +76,70 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         View view = binding.getRoot();
         setContentView(view);
 
-        // code to determine screen orientation
-        int orientation = this.getResources().getConfiguration().orientation;
-        ConstraintSet set = new ConstraintSet();
-        ConstraintLayout layout;
-        layout = (ConstraintLayout) findViewById(R.id.activity_main);
-        set.clone(layout);
-        // Break the connections
-        breakPhotoConstraints(set);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.activity_main, ListFragment.class, null, "list_tag")
+//                .setReorderingAllowed(true)
+//                .addToBackStack(null)
+                .commit();
 
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+        Fragment mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
+        Fragment textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
+        Fragment listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
+
+
+        if(currentFragment == MAP_TEXT_FRAGMENTS) {
+            // remove the ListFragment
+            fragmentManager.beginTransaction()
+                    .hide(listFragment)
+            // add the map and text fragment
+                    .show(mapsFragment)
+                    .show(textFragment)
+                    .commit();
+
+            // code to determine screen orientation
+            int orientation = this.getResources().getConfiguration().orientation;
+            ConstraintSet set = new ConstraintSet();
+            ConstraintLayout layout;
+            layout = (ConstraintLayout) findViewById(R.id.activity_main);
+            set.clone(layout);
+            // Break the connections
+            breakPhotoConstraints(set);
+
             // Set up new connections
-            set.connect(R.id.map2, ConstraintSet.END, R.id.activity_main, ConstraintSet.END, 0);
-            set.connect(R.id.text, ConstraintSet.START, R.id.activity_main, ConstraintSet.START, 0);
-            set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.text, ConstraintSet.TOP, 0);
-            set.connect(R.id.text, ConstraintSet.TOP, R.id.map2, ConstraintSet.BOTTOM, 0);
-        } else {
-            // Set up new connections
-            set.connect(R.id.map2, ConstraintSet.END, R.id.text, ConstraintSet.START, 0);
-            set.connect(R.id.text, ConstraintSet.START, R.id.map2, ConstraintSet.END, 0);
-            set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.activity_main, ConstraintSet.BOTTOM, 0);
-            set.connect(R.id.text, ConstraintSet.TOP, R.id.activity_main, ConstraintSet.TOP, 0);
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                set.connect(R.id.map2, ConstraintSet.END, R.id.activity_main, ConstraintSet.END, 0);
+                set.connect(R.id.text, ConstraintSet.START, R.id.activity_main, ConstraintSet.START, 0);
+                set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.text, ConstraintSet.TOP, 0);
+                set.connect(R.id.text, ConstraintSet.TOP, R.id.map2, ConstraintSet.BOTTOM, 0);
+            } else {
+                set.connect(R.id.map2, ConstraintSet.END, R.id.text, ConstraintSet.START, 0);
+                set.connect(R.id.text, ConstraintSet.START, R.id.map2, ConstraintSet.END, 0);
+                set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.activity_main, ConstraintSet.BOTTOM, 0);
+                set.connect(R.id.text, ConstraintSet.TOP, R.id.activity_main, ConstraintSet.TOP, 0);
+            }
+            set.applyTo(layout);
         }
-        set.applyTo(layout);
+        else if(currentFragment == LIST_FRAGMENT) {
+
+             layoutManager = new LinearLayoutManager(this);
+             binding.listFragment.recyclerView.setLayoutManager(layoutManager);
+
+             adapter = new RecyclerAdapter();
+             binding.listFragment.recyclerView.setAdapter(adapter);
+
+             Log.i("mapDemo", "listFragment = " + listFragment);
+
+            // remove the List and map Fragments
+            fragmentManager.beginTransaction()
+                    .hide(mapsFragment)
+                    .hide(textFragment)
+                    // add the list fragment
+                    .show(listFragment)
+                    .commit();
+        }
+
     }
 
     private void breakPhotoConstraints(ConstraintSet set) {

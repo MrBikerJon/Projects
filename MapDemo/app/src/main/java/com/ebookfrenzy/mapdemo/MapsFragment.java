@@ -2,15 +2,21 @@ package com.ebookfrenzy.mapdemo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import androidx.core.content.ContextCompat;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.ebookfrenzy.mapdemo.databinding.FragmentMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -70,6 +76,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         public void onMapReady(GoogleMap googleMap) {
 
             mMap = googleMap;
+
+            // following code is to update location to current location, provided user has
+            // given permission to do so. Commented out for now as need location to continue to show
+            // Clovelly
+            if(mMap != null) {
+                Context context = getActivity().getApplicationContext();
+                int permission = ContextCompat.checkSelfPermission(context,
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                } else {
+                    requestPermission(Manifest.permission.ACCESS_FINE_LOCATION,
+                            LOCATION_REQUEST_CODE);
+                }
+            }
+
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
             // add all the other markers
@@ -82,6 +105,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mapSettings.setScrollGesturesEnabled(true);
             mapSettings.setTiltGesturesEnabled(true);
             mapSettings.setRotateGesturesEnabled(true);
+            mapSettings.setMyLocationButtonEnabled(true);
+
+            mMap.setPadding(0, 150, 150, 150);
 
             // zoom in on the centre of Clovelly
             LatLng clovelly = new LatLng(50.998128, -4.399118);
@@ -99,22 +125,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     return true;
                 }
             });
+        }
 
-            // following code is to update location to current location, provided user has
-            // given permission to do so. Commented out for now as need location to continue to show
-            // Clovelly
-//        if(mMap != null) {
-//            int permission = ContextCompat.checkSelfPermission(this,
-//                    Manifest.permission.ACCESS_FINE_LOCATION);
-//
-//            if(permission == PackageManager.PERMISSION_GRANTED) {
-//                mMap.setMyLocationEnabled(true);
-//            } else {
-//                requestPermission(Manifest.permission.ACCESS_FINE_LOCATION,
-//                        LOCATION_REQUEST_CODE);
-//            }
-//        }
-
+        protected void requestPermission(String permissionType, int requestCode) {
+            Activity activity = getActivity();
+            ActivityCompat.requestPermissions(activity, new String[]{permissionType}, requestCode);
         }
 
 

@@ -2,10 +2,9 @@ package com.ebookfrenzy.mapdemo;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,11 +57,11 @@ public class TextFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -81,6 +80,7 @@ public class TextFragment extends Fragment {
     public void clearTextFragment() {
         LinearLayout linearLayout = binding.linearLayout;
         linearLayout.removeAllViews();
+        binding.scrollView.scrollTo(0, 0);
     }
 
     /**
