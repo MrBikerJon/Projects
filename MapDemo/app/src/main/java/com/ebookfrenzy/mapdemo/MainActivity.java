@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import com.ebookfrenzy.mapdemo.databinding.ActivityMainBinding;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,11 +25,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private ActivityMainBinding binding;
     private final int MAP_TEXT_FRAGMENTS = 0;
     private final int LIST_FRAGMENT = 1;
-    private int currentFragment = LIST_FRAGMENT;
+    private int currentFragment = MAP_TEXT_FRAGMENTS;
 
-    private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
+
+    private FragmentManager fragmentManager;
+    private Fragment mapsFragment;
+    private Fragment textFragment;
+    private Fragment listFragment;
 
     /**
      * obtain a reference to the fragment_text instance and call the changeText() method on the object
@@ -74,72 +77,29 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-
-        ListFragment lf = new ListFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.activity_main, lf, "list_tag")
-                .commitNow();
-
-        Fragment mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
-        Fragment textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
-        Fragment listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
-
-
-        if(currentFragment == MAP_TEXT_FRAGMENTS) {
-            // remove the ListFragment
-            fragmentManager.beginTransaction()
-                    .hide(listFragment)
-            // add the map and text fragment
-                    .show(mapsFragment)
-                    .show(textFragment)
-                    .commit();
-
-            // code to determine screen orientation
-            int orientation = this.getResources().getConfiguration().orientation;
-            ConstraintSet set = new ConstraintSet();
-            ConstraintLayout layout;
-            layout = (ConstraintLayout) findViewById(R.id.activity_main);
-            set.clone(layout);
-            // Break the connections
-            breakPhotoConstraints(set);
-
-            // Set up new connections
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                set.connect(R.id.map2, ConstraintSet.END, R.id.activity_main, ConstraintSet.END, 0);
-                set.connect(R.id.text, ConstraintSet.START, R.id.activity_main, ConstraintSet.START, 0);
-                set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.text, ConstraintSet.TOP, 0);
-                set.connect(R.id.text, ConstraintSet.TOP, R.id.map2, ConstraintSet.BOTTOM, 0);
-            } else {
-                set.connect(R.id.map2, ConstraintSet.END, R.id.text, ConstraintSet.START, 0);
-                set.connect(R.id.text, ConstraintSet.START, R.id.map2, ConstraintSet.END, 0);
-                set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.activity_main, ConstraintSet.BOTTOM, 0);
-                set.connect(R.id.text, ConstraintSet.TOP, R.id.activity_main, ConstraintSet.TOP, 0);
-            }
-            set.applyTo(layout);
-        }
-        else if(currentFragment == LIST_FRAGMENT) {
-
-             layoutManager = new LinearLayoutManager(this);
-             binding.listFragment.recyclerView.setLayoutManager(layoutManager);
-
-             adapter = new RecyclerAdapter();
-             binding.listFragment.recyclerView.setAdapter(adapter);
-
-             Log.i("mapDemo", "listFragment = " + listFragment);
-
-            // remove the List and map Fragments
-            fragmentManager.beginTransaction()
-                    .hide(mapsFragment)
-                    .hide(textFragment)
-                    // add the list fragment
-                    .show(listFragment)
-                    .commit();
-        }
-
         setContentView(view);
 
+        ListFragment newListFragment = new ListFragment();
+
+        // create a fragment manager
+        fragmentManager = getSupportFragmentManager();
+        // add a new list_fragment to the view, with a tag so it can be accessed by the fragment manager
+        fragmentManager.beginTransaction()
+                .add(R.id.activity_main, newListFragment, "list_tag")
+                .commitNow();
+
+        // allocate Fragments so they can be accessed by fragment manager
+        mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
+        textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
+        listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
+
+        // display correct Fragment(s) depending on view chosen by user
+        if(currentFragment == MAP_TEXT_FRAGMENTS) {
+            showMapTextFragments();
+        }
+        else if(currentFragment == LIST_FRAGMENT) {
+            showListFragment();
+        }
     }
 
     private void breakPhotoConstraints(ConstraintSet set) {
@@ -175,6 +135,57 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.rnli, null);
         poi = mMap.getPointOfInterest("RNLI Lifeboat Station");
         poi.addPlacePhoto(myImage);
+    }
+
+    public void showMapTextFragments() {
+        // hide the ListFragment
+        fragmentManager.beginTransaction()
+                .hide(listFragment)
+                // show the map and text fragment
+                .show(mapsFragment)
+                .show(textFragment)
+                .commitNow();
+
+        // code to determine screen orientation
+        int orientation = this.getResources().getConfiguration().orientation;
+        ConstraintSet set = new ConstraintSet();
+        ConstraintLayout layout;
+
+        layout = (ConstraintLayout) findViewById(R.id.activity_main);
+        set.clone(layout);
+        // Break the connections
+        breakPhotoConstraints(set);
+
+        // Set up new connections
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            set.connect(R.id.map2, ConstraintSet.END, R.id.activity_main, ConstraintSet.END, 0);
+            set.connect(R.id.text, ConstraintSet.START, R.id.activity_main, ConstraintSet.START, 0);
+            set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.text, ConstraintSet.TOP, 0);
+            set.connect(R.id.text, ConstraintSet.TOP, R.id.map2, ConstraintSet.BOTTOM, 0);
+        } else {
+            set.connect(R.id.map2, ConstraintSet.END, R.id.text, ConstraintSet.START, 0);
+            set.connect(R.id.text, ConstraintSet.START, R.id.map2, ConstraintSet.END, 0);
+            set.connect(R.id.map2, ConstraintSet.BOTTOM, R.id.activity_main, ConstraintSet.BOTTOM, 0);
+            set.connect(R.id.text, ConstraintSet.TOP, R.id.activity_main, ConstraintSet.TOP, 0);
+        }
+        set.applyTo(layout);
+    }
+
+    public void showListFragment() {
+        // set up Recycler Adapter to show the list of items
+        layoutManager = new LinearLayoutManager(this);
+        binding.listFragment.recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new RecyclerAdapter();
+        binding.listFragment.recyclerView.setAdapter(adapter);
+
+        // hide the List and map Fragments
+        fragmentManager.beginTransaction()
+                .hide(mapsFragment)
+                .hide(textFragment)
+                // show the list fragment
+                .show(listFragment)
+                .commit();
     }
 
 }

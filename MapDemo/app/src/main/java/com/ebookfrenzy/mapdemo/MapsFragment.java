@@ -9,14 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.ebookfrenzy.mapdemo.databinding.FragmentMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
