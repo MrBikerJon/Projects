@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
 import com.ebookfrenzy.mapdemo.databinding.ActivityMainBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private final int LIST_FRAGMENT = 1;
     private int currentFragment = MAP_TEXT_FRAGMENTS;
 
+    private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
 
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private Fragment mapsFragment;
     private Fragment textFragment;
     private Fragment listFragment;
+
 
     /**
      * obtain a reference to the fragment_text instance and call the changeText() method on the object
@@ -79,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         View view = binding.getRoot();
         setContentView(view);
 
+
+
+        // TODO should this go into onCreateView rather than onCreate?
         ListFragment newListFragment = new ListFragment();
 
         // create a fragment manager
@@ -100,6 +108,30 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         else if(currentFragment == LIST_FRAGMENT) {
             showListFragment();
         }
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                fragmentManager = getSupportFragmentManager();
+                Log.i("mapDemo", "currentFragment is " + currentFragment);
+
+                // allocate Fragments so they can be accessed by fragment manager
+//                mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
+//                textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
+//                listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
+
+                // display correct Fragment(s) depending on view chosen by user
+                if(currentFragment == MAP_TEXT_FRAGMENTS) {
+                    showListFragment();
+                    currentFragment = LIST_FRAGMENT;
+                    Log.i("mapDemo", "currentFragment = LIST_FRAGMENT;");
+                }
+                else {
+                    showMapTextFragments();
+                    currentFragment = MAP_TEXT_FRAGMENTS;
+                }
+            }
+        });
     }
 
     private void breakPhotoConstraints(ConstraintSet set) {
@@ -172,12 +204,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     public void showListFragment() {
-        // set up Recycler Adapter to show the list of items
+
         layoutManager = new LinearLayoutManager(this);
         binding.listFragment.recyclerView.setLayoutManager(layoutManager);
 
+        // set up Recycler Adapter to show the list of items
         adapter = new RecyclerAdapter();
+        Log.i("mapDemo", "adapter = new RecyclerAdapter();");
         binding.listFragment.recyclerView.setAdapter(adapter);
+        Log.i("mapDemo", "binding.listFragment.recyclerView.setAdapter(adapter);");
 
         // hide the List and map Fragments
         fragmentManager.beginTransaction()
@@ -185,7 +220,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 .hide(textFragment)
                 // show the list fragment
                 .show(listFragment)
-                .commit();
+                .commitNow();
+        Log.i("mapDemo", ".commitNow();");
+
     }
+
 
 }
