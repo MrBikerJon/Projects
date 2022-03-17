@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         return true;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +83,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         View view = binding.getRoot();
         setContentView(view);
 
-
-
-        // TODO should this go into onCreateView rather than onCreate?
         ListFragment newListFragment = new ListFragment();
 
         // create a fragment manager
