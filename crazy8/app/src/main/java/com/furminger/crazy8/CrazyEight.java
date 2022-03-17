@@ -15,7 +15,6 @@ public class CrazyEight extends AppCompatActivity {
 
         gameView = new CrazyEightView(this);
         gameView.setKeepScreenOn(true);
-
         setContentView(gameView);
     }
 

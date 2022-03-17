@@ -1,6 +1,5 @@
 package com.furminger.allaboutclovelly;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_layout, viewGroup, false);
-        Log.i("mapDemo", "RecyclerAdapter: View v....");
         return new ViewHolder(v);
     }
 
@@ -67,10 +65,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
      * is to be displayed.
      */
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.itemTitle.setText(titles[i]);
-        viewHolder.itemDetail.setText(details[i]);
-        viewHolder.itemImage.setImageResource(images[i]);
+    public void onBindViewHolder(ViewHolder viewHolder, int key) {
+
+        viewHolder.itemTitle.setText(titles[key]);
+        viewHolder.itemDetail.setText(details[key]);
+        viewHolder.itemImage.setImageResource(images[key]);
     }
 
     @Override

@@ -30,10 +30,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private final int LIST_FRAGMENT = 1;
     private int currentFragment = MAP_TEXT_FRAGMENTS;
 
-    private RecyclerView recyclerView2;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-
     private FragmentManager fragmentManager;
     private Fragment mapsFragment;
     private Fragment textFragment;
@@ -108,19 +104,11 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                fragmentManager = getSupportFragmentManager();
-                Log.i("mapDemo", "currentFragment is " + currentFragment);
-
-                // allocate Fragments so they can be accessed by fragment manager
-//                mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
-//                textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
-//                listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
 
                 // display correct Fragment(s) depending on view chosen by user
                 if(currentFragment == MAP_TEXT_FRAGMENTS) {
                     showListFragment();
                     currentFragment = LIST_FRAGMENT;
-                    Log.i("mapDemo", "currentFragment = LIST_FRAGMENT;");
                 }
                 else {
                     showMapTextFragments();
@@ -149,10 +137,17 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         // This adds the photos into the PointsOfInterest HashMap
         MapsFragment mMap = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
 
-        Drawable myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.fishermanscottage, null);
-        PointOfInterest poi = mMap.getPointOfInterest("Fisherman's Cottage");
+        Drawable myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.visitorcentre, null);
+        PointOfInterest poi = mMap.getPointOfInterest("Visitors Centre");
         poi.addPlacePhoto(myImage);
 
+        myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.donkeystables, null);
+        poi = mMap.getPointOfInterest("Donkey Stables");
+        poi.addPlacePhoto(myImage);
+
+        myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.fishermanscottage, null);
+         poi = mMap.getPointOfInterest("Fisherman's Cottage");
+        poi.addPlacePhoto(myImage);
 
         myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.redlionhotel, null);
         Drawable myImage2 = ResourcesCompat.getDrawable(getResources(), R.drawable.redlioninnoldback, null);
@@ -163,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.rnli, null);
         poi = mMap.getPointOfInterest("RNLI Lifeboat Station");
         poi.addPlacePhoto(myImage);
+
+        myImage = ResourcesCompat.getDrawable(getResources(), R.drawable.clovellycourtgardens, null);
+        poi = mMap.getPointOfInterest("Clovelly Court Gardens");
+        poi.addPlacePhoto(myImage);
+
     }
 
     public void showMapTextFragments() {
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         ConstraintSet set = new ConstraintSet();
         ConstraintLayout layout;
 
-        layout = (ConstraintLayout) findViewById(R.id.activity_main);
+        layout = findViewById(R.id.activity_main);
         set.clone(layout);
         // Break the connections
         breakPhotoConstraints(set);
@@ -201,15 +201,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     public void showListFragment() {
 
-        layoutManager = new LinearLayoutManager(this);
-        binding.listFragment.recyclerView.setLayoutManager(layoutManager);
-
-        // set up Recycler Adapter to show the list of items
-        adapter = new RecyclerAdapter();
-        Log.i("mapDemo", "adapter = new RecyclerAdapter();");
-        binding.listFragment.recyclerView.setAdapter(adapter);
-        Log.i("mapDemo", "binding.listFragment.recyclerView.setAdapter(adapter);");
-
         // hide the List and map Fragments
         fragmentManager.beginTransaction()
                 .hide(mapsFragment)
@@ -217,8 +208,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 // show the list fragment
                 .show(listFragment)
                 .commitNow();
-        Log.i("mapDemo", ".commitNow();");
-
     }
 
 

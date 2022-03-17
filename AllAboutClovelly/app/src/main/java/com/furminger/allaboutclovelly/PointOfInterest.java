@@ -6,13 +6,15 @@ import java.util.ArrayList;
 
 public class PointOfInterest {
 
+    private int id;
     private double latitude;
     private double longitude;
     private String placeTitle;
     private String placeDescription;
     private ArrayList<Drawable> placePhoto;
 
-    public PointOfInterest(double latitude, double longitude, String placeTitle, String placeDescription, ArrayList<Drawable> placePhoto) {
+    public PointOfInterest(int id, double latitude, double longitude, String placeTitle, String placeDescription, ArrayList<Drawable> placePhoto) {
+        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.placeTitle = placeTitle;

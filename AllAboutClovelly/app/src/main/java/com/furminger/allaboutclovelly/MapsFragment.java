@@ -39,22 +39,39 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private @NonNull
     FragmentMapsBinding binding;
 
-    private PointOfInterest fishermansCottage = new PointOfInterest(50.99795648517228,
-            -4.399230743006255, "Fisherman's Cottage", "Inside the " +
+    private PointOfInterest visitorsCentre = new PointOfInterest(1, 50.99922758761011, -4.40493487281753,
+            "Visitors Centre",
+            "The visitors centre is where .......",
+            new ArrayList<Drawable>());
+    private PointOfInterest donkeyStables = new PointOfInterest(2, 50.999443650702425, -4.402059544653397,
+            "Donkey Stables",
+            "The donkey stables at Clovelly are almost as old as the village itself.",
+            new ArrayList<Drawable>());
+    private PointOfInterest fishermansCottage = new PointOfInterest(3, 50.99795648517228, -4.399230743006255,
+            "Fisherman's Cottage",
+            "Inside the " +
             "cottage you can see how a Clovelly fisherman and his family lived in the 1930s. The " +
             "parlour is decorated with domestic treasures of the period, including simple cottage " +
             "furniture, colourful pictures and religious engravings. The tiny kitchen is plain but " +
             "full of period charm. Upstairs there are two small bedrooms, a sail loft, and an attic " +
-            "complete with straw mattresses.", new ArrayList<Drawable>());
-    private PointOfInterest redLionHotel = new PointOfInterest(50.99907263622343,
-            -4.397884284339087, "Red Lion Hotel", "The Red Lion" +
-            " Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s " +
-            "ancient harbour in North Devon.", new ArrayList<Drawable>());
-    private PointOfInterest RNLILifeboatStation = new PointOfInterest(50.99836498982892,
-            -4.397444391999562, "RNLI Lifeboat Station", "Following " +
+            "complete with straw mattresses.",
+            new ArrayList<Drawable>());
+    private PointOfInterest redLionHotel = new PointOfInterest(4, 50.99907263622343, -4.397884284339087,
+            "Red Lion Hotel",
+            "The Red Lion Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s " +
+                    "ancient harbour.",
+            new ArrayList<Drawable>());
+    private PointOfInterest RNLILifeboatStation = new PointOfInterest(5, 50.99836498982892, -4.397444391999562,
+            "RNLI Lifeboat Station",
+            "Following " +
             "a terrible storm Clovelly’s first lifeboat station was built in 1870. Most of the " +
             "fishing fleet was destroyed with the loss of many lives. At only 33 feet long and " +
-            "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.", new ArrayList<Drawable>());
+            "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.",
+            new ArrayList<Drawable>());
+        private PointOfInterest clovellyCourtGardens = new PointOfInterest(6, 51.000409170390604, -4.4104924096382225,
+                "Clovelly Court Gardens",
+            "Charming walled garden, a few minutes drive from the Clovelly village car park .",
+                new ArrayList<Drawable>());
 
     private Map<String,PointOfInterest> pointsOfInterest = new HashMap<>();
 
@@ -168,9 +185,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         binding = FragmentMapsBinding.inflate(inflater, container, false);
 
         // TODO will need to put this somewhere else eventually
+        pointsOfInterest.put("Visitors Centre", visitorsCentre);
+        pointsOfInterest.put("Donkey Stables", donkeyStables);
         pointsOfInterest.put("Fisherman's Cottage", fishermansCottage);
         pointsOfInterest.put("Red Lion Hotel", redLionHotel);
         pointsOfInterest.put("RNLI Lifeboat Station", RNLILifeboatStation);
+        pointsOfInterest.put("Clovelly Court Gardens", clovellyCourtGardens);
 
         return binding.getRoot();
 
@@ -214,6 +234,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         mMap.addMarker(new MarkerOptions()
                 .position(position).title(placeTitle).snippet(placeDescription));
+    }
+
+    public String getPointOfInterestTitle(String title) {
+        return pointsOfInterest.get(title).toString();
     }
 
 }
