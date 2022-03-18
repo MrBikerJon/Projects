@@ -1,21 +1,27 @@
-package com.furminger.allaboutclovelly;
+package com.furminger.allaboutclovelly.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.furminger.allaboutclovelly.MainActivity;
+import com.furminger.allaboutclovelly.PointOfInterest;
+import com.furminger.allaboutclovelly.R;
 import com.furminger.allaboutclovelly.databinding.FragmentMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,8 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -38,46 +43,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private @NonNull
     FragmentMapsBinding binding;
-
-    private PointOfInterest visitorsCentre = new PointOfInterest(1, 50.99922758761011, -4.40493487281753,
-            "Visitors Centre",
-            "The visitors centre is where .......",
-            new ArrayList<Drawable>());
-    private PointOfInterest donkeyStables = new PointOfInterest(2, 50.999443650702425, -4.402059544653397,
-            "Donkey Stables",
-            "The donkey stables at Clovelly are almost as old as the village itself.",
-            new ArrayList<Drawable>());
-    private PointOfInterest fishermansCottage = new PointOfInterest(3, 50.99795648517228, -4.399230743006255,
-            "Fisherman's Cottage",
-            "Inside the " +
-            "cottage you can see how a Clovelly fisherman and his family lived in the 1930s. The " +
-            "parlour is decorated with domestic treasures of the period, including simple cottage " +
-            "furniture, colourful pictures and religious engravings. The tiny kitchen is plain but " +
-            "full of period charm. Upstairs there are two small bedrooms, a sail loft, and an attic " +
-            "complete with straw mattresses.",
-            new ArrayList<Drawable>());
-    private PointOfInterest redLionHotel = new PointOfInterest(4, 50.99907263622343, -4.397884284339087,
-            "Red Lion Hotel",
-            "The Red Lion Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s " +
-                    "ancient harbour.",
-            new ArrayList<Drawable>());
-    private PointOfInterest RNLILifeboatStation = new PointOfInterest(5, 50.99836498982892, -4.397444391999562,
-            "RNLI Lifeboat Station",
-            "Following " +
-            "a terrible storm Clovelly’s first lifeboat station was built in 1870. Most of the " +
-            "fishing fleet was destroyed with the loss of many lives. At only 33 feet long and " +
-            "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.",
-            new ArrayList<Drawable>());
-        private PointOfInterest clovellyCourtGardens = new PointOfInterest(6, 51.000409170390604, -4.4104924096382225,
-                "Clovelly Court Gardens",
-            "Charming walled garden, a few minutes drive from the Clovelly village car park .",
-                new ArrayList<Drawable>());
-
-    private Map<String,PointOfInterest> pointsOfInterest = new HashMap<>();
-
-    public PointOfInterest getPointOfInterest(String key) {
-        return pointsOfInterest.get(key);
-    }
+    private final String TAG = "mapDemo";
 
         /**
          * Manipulates the map once available.
@@ -94,8 +60,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mMap = googleMap;
 
             // following code is to update location to current location, provided user has
-            // given permission to do so. Commented out for now as need location to continue to show
-            // Clovelly
+            // given permission to do so.
             if(mMap != null) {
                 Context context = getActivity().getApplicationContext();
                 int permission = ContextCompat.checkSelfPermission(context,
@@ -167,6 +132,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         } catch (ClassCastException e) {
             throw new ClassCastException(context + " must implement OnMarkerClickListener");
         }
+
+
     }
 
     /**
@@ -184,17 +151,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentMapsBinding.inflate(inflater, container, false);
 
-        // TODO will need to put this somewhere else eventually
-        pointsOfInterest.put("Visitors Centre", visitorsCentre);
-        pointsOfInterest.put("Donkey Stables", donkeyStables);
-        pointsOfInterest.put("Fisherman's Cottage", fishermansCottage);
-        pointsOfInterest.put("Red Lion Hotel", redLionHotel);
-        pointsOfInterest.put("RNLI Lifeboat Station", RNLILifeboatStation);
-        pointsOfInterest.put("Clovelly Court Gardens", clovellyCourtGardens);
-
         return binding.getRoot();
-
     }
+
 
     @Override
     public void onDestroyView() {
@@ -210,11 +169,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
+
         }
     }
 
     private void addAllMarkers() {
-        for(PointOfInterest pointOfInterest : pointsOfInterest.values()) {
+
+        for(PointOfInterest pointOfInterest : ((MainActivity) getActivity()).getPointsOfInterest().values()) {
             addPointOfInterestMarker(pointOfInterest);
         }
     }
@@ -234,10 +195,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         mMap.addMarker(new MarkerOptions()
                 .position(position).title(placeTitle).snippet(placeDescription));
-    }
-
-    public String getPointOfInterestTitle(String title) {
-        return pointsOfInterest.get(title).toString();
     }
 
 }

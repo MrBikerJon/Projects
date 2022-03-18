@@ -44,4 +44,8 @@ public class PointOfInterest {
 
     public void addPlacePhoto(Drawable drawable) { placePhoto.add(drawable); }
 
+    public int getId() {
+        return id;
+    }
+
 }

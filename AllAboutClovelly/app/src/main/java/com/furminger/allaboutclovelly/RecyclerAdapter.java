@@ -1,5 +1,6 @@
 package com.furminger.allaboutclovelly;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Map;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    final private String[] titles = {"Chapter One", "Chapter Two", "Chapter Three", "Chapter Four",
-            "Chapter Five", "Chapter Six", "Chapter Seven", "Chapter Eight"
-    };
-
-    final private String[] details = {"Item one details", "Item two details", "Item three details",
-    "Item four details", "Item five details", "Item six details", "Item seven details", "Item eight details"};
-
-    final private int[] images = {R.drawable.android_image_1,
-    R.drawable.android_image_2,
-    R.drawable.android_image_3,
-    R.drawable.android_image_4,
-    R.drawable.android_image_5,
-    R.drawable.android_image_6,
-    R.drawable.android_image_7,
-    R.drawable.android_image_8};
+    private final String TAG = "mapDemo";
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -41,9 +30,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
     }
 
+    private Map<String, PointOfInterest> pointsOfInterest;
+
+    public RecyclerAdapter(Map<String, PointOfInterest> pointsOfInterest) {
+        super();
+        this.pointsOfInterest = pointsOfInterest;
+
+    }
+
     /**
      * This method will be called by the RecyclerView to obtain a ViewHolder object.
-     * It inflates the view hierarchy card_layout.xml file and creates and instance of
+     * It inflates the view hierarchy card_layout.xml file and creates an instance of
      * the ViewHolder class initialized with the view hierarchy, before returning it to
      * the RecyclerView.
      * @param viewGroup
@@ -65,16 +62,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
      * is to be displayed.
      */
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int key) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        viewHolder.itemTitle.setText(titles[key]);
-        viewHolder.itemDetail.setText(details[key]);
-        viewHolder.itemImage.setImageResource(images[key]);
+        String key = "";
+        // loop through the pointsOfInterest Map, looking for a match between i and
+        // the id - then extract the key
+        for(Map.Entry<String, PointOfInterest> pair : pointsOfInterest.entrySet()) {
+            if(pair.getValue().getId() == i) {
+                key = pair.getKey();
+            }
+        }
+
+        viewHolder.itemTitle.setText(pointsOfInterest.get(key).getPlaceTitle());
+        viewHolder.itemDetail.setText(pointsOfInterest.get(key).getPlaceDescription());
+        viewHolder.itemImage.setImageDrawable(pointsOfInterest.get(key).getPlacePhotos().get(0));
     }
 
     @Override
     public int getItemCount() {
-        return titles.length;
+        return pointsOfInterest.size();
     }
 
 }

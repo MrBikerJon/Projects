@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map2"
-        android:name="com.furminger.allaboutclovelly.MapsFragment"
+        android:name="com.furminger.allaboutclovelly.ui.main.MapsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:tag="map_tag"
@@ -22,7 +22,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/text"
-        android:name="com.furminger.allaboutclovelly.TextFragment"
+        android:name="com.furminger.allaboutclovelly.ui.main.TextFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"

@@ -30,7 +30,7 @@
             android:layout_height="39dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:textSize="30sp"
+            android:textSize="20sp"
             app:layout_constraintLeft_toRightOf="@+id/itemImage"
             app:layout_constraintStart_toEndOf="@+id/itemImage"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,9 +38,10 @@
         <TextView
             android:id="@+id/itemDetail"
             android:layout_width="236dp"
-            android:layout_height="16dp"
+            android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:textSize="10sp"
             app:layout_constraintLeft_toRightOf="@+id/itemImage"
             app:layout_constraintStart_toEndOf="@+id/itemImage"
             app:layout_constraintTop_toBottomOf="@+id/itemTitle" />
