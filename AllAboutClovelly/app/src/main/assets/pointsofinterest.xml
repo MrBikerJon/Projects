@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pointsofinterest>
+    <pointofinterest>
+        <key>Visitors Centre</key>
+        <id>0</id>
+        <latitude>50.99922758761011</latitude>
+        <longitude>-4.40493487281753</longitude>
+        <placetitle>Visitors Centre</placetitle>
+        <placedescription>The visitors centre is where .......</placedescription>
+        <placephoto>visitorcentre</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>Donkey Stables</key>
+        <id>1</id>
+        <latitude>50.999443650702425</latitude>
+        <longitude>-4.402059544653397</longitude>
+        <placetitle>Donkey Stables</placetitle>
+        <placedescription>The donkey stables at Clovelly are almost as old as the village itself.</placedescription>
+        <placephoto>donkeystables</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>Fisherman's Cottage</key>
+        <id>2</id>
+        <latitude>50.99795648517228</latitude>
+        <longitude>-4.399230743006255</longitude>
+        <placetitle>Fisherman's Cottage</placetitle>
+        <placedescription>Inside the cottage you can see how a Clovelly fisherman and his family lived in the
+            1930s. The parlour is decorated with domestic treasures of the period, including simple
+            cottage furniture, colourful pictures and religious engravings. The tiny kitchen is
+            plain but full of period charm. Upstairs there are two small bedrooms, a sail loft,
+            and an attic complete with straw mattresses.</placedescription>
+        <placephoto>fishermanscottage</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>Red Lion Hotel</key>
+        <id>3</id>
+        <latitude>50.99907263622343</latitude>
+        <longitude>-4.397884284339087</longitude>
+        <placetitle>Red Lion Hotel</placetitle>
+        <placedescription>The Red Lion Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s ancient harbour.</placedescription>
+        <placephoto>redlionhotel</placephoto>
+    </pointofinterest>
+
+
+    <pointofinterest>
+        <key>RNLI Lifeboat Station</key>
+        <id>4</id>
+        <latitude>50.99836498982892</latitude>
+        <longitude>-4.397444391999562</longitude>
+        <placetitle>RNLI Lifeboat Station</placetitle>
+        <placedescription>Following a terrible storm Clovelly’s first lifeboat station was built in 1870. Most of the fishing fleet was destroyed with the loss of many lives. At only 33 feet long and built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.</placedescription>
+        <placephoto>rnli</placephoto>
+    </pointofinterest>
+
+
+    <pointofinterest>
+        <key>Clovelly Court Gardens</key>
+        <id>5</id>
+        <latitude>51.000409170390604</latitude>
+        <longitude>-4.4104924096382225</longitude>
+        <placetitle>Clovelly Court Gardens</placetitle>
+        <placedescription>Charming walled garden, a few minutes drive from the Clovelly village car park.</placedescription>
+        <placephoto>clovellycourtgardens</placephoto>
+    </pointofinterest>
+
+</pointsofinterest>

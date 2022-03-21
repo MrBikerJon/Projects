@@ -1,5 +1,7 @@
 package com.furminger.allaboutclovelly;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +77,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         viewHolder.itemTitle.setText(pointsOfInterest.get(key).getPlaceTitle());
         viewHolder.itemDetail.setText(pointsOfInterest.get(key).getPlaceDescription());
-        viewHolder.itemImage.setImageDrawable(pointsOfInterest.get(key).getPlacePhotos().get(0));
+
+        String photoName = pointsOfInterest.get(key).getPlacePhotos().get(0);
+//        Drawable newImage = getResources().getDrawable(getStringIdentifier(this, photoName), null);
+
+//        viewHolder.itemImage.setImageDrawable(pointsOfInterest.get(key).getPlacePhotos().get(0));
     }
 
     @Override
@@ -83,4 +89,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return pointsOfInterest.size();
     }
 
+
+
+    public static int getStringIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    }
+
 }
+
+
+

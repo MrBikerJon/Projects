@@ -194,7 +194,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         LatLng position = new LatLng(latitude, longitude);
 
         mMap.addMarker(new MarkerOptions()
-                .position(position).title(placeTitle).snippet(placeDescription));
+                .position(position)
+                .title(placeTitle)
+                .snippet(placeDescription));
     }
 
 }

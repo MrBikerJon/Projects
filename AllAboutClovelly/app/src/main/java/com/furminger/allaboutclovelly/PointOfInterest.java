@@ -11,9 +11,13 @@ public class PointOfInterest {
     private double longitude;
     private String placeTitle;
     private String placeDescription;
-    private ArrayList<Drawable> placePhoto;
+    private ArrayList<String> placePhoto;
 
-    public PointOfInterest(int id, double latitude, double longitude, String placeTitle, String placeDescription, ArrayList<Drawable> placePhoto) {
+    public PointOfInterest() {
+        placePhoto  = new ArrayList<>();
+    }
+
+    public PointOfInterest(int id, double latitude, double longitude, String placeTitle, String placeDescription, ArrayList<String> placePhoto) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -26,26 +30,50 @@ public class PointOfInterest {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getPlaceTitle() {
         return placeTitle;
     }
 
+    public void setPlaceTitle(String placeTitle) {
+        this.placeTitle = placeTitle;
+    }
+
     public String getPlaceDescription() {
         return placeDescription;
     }
 
-    public ArrayList<Drawable> getPlacePhotos() {
+    public void setPlaceDescription(String placeDescription) {
+        this.placeDescription = placeDescription;
+    }
+
+    public ArrayList<String> getPlacePhotos() {
         return placePhoto;
     }
 
-    public void addPlacePhoto(Drawable drawable) { placePhoto.add(drawable); }
+    public void setPlacePhoto(String photoResourceName) {
+        this.placePhoto.add(photoResourceName);
+    }
+
+//    public void addPlacePhoto(Drawable drawable) { placePhoto.add(drawable); }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

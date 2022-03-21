@@ -7,9 +7,11 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.furminger.allaboutclovelly.databinding.ActivityMainBinding;
@@ -19,6 +21,12 @@ import com.furminger.allaboutclovelly.ui.main.TextFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,97 +35,19 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     // TODO place markers on map using SQL database
 
+    private final String TAG = "mapDemo";
+
     private ActivityMainBinding binding;
     private final int MAP_TEXT_FRAGMENTS = 0;
     private final int LIST_FRAGMENT = 1;
     private int currentFragment = MAP_TEXT_FRAGMENTS;
-
     private FragmentManager fragmentManager;
     private Fragment mapsFragment;
     private Fragment textFragment;
     private Fragment listFragment;
-
     private Map<String, PointOfInterest> pointsOfInterest = new HashMap<>();
-
-    private Drawable drawable;
-
-    private final String TAG = "mapDemo";
-
-
+//    private Drawable drawable;
     private String currentPointOfInterestKey;
-
-    private PointOfInterest visitorsCentre = new PointOfInterest(0, 50.99922758761011, -4.40493487281753,
-            "Visitors Centre",
-            "The visitors centre is where .......",
-            new ArrayList<Drawable>());
-    private PointOfInterest donkeyStables = new PointOfInterest(1, 50.999443650702425, -4.402059544653397,
-            "Donkey Stables",
-            "The donkey stables at Clovelly are almost as old as the village itself.",
-            new ArrayList<Drawable>());
-    private PointOfInterest fishermansCottage = new PointOfInterest(2, 50.99795648517228, -4.399230743006255,
-            "Fisherman's Cottage",
-            "Inside the " +
-                    "cottage you can see how a Clovelly fisherman and his family lived in the 1930s. The " +
-                    "parlour is decorated with domestic treasures of the period, including simple cottage " +
-                    "furniture, colourful pictures and religious engravings. The tiny kitchen is plain but " +
-                    "full of period charm. Upstairs there are two small bedrooms, a sail loft, and an attic " +
-                    "complete with straw mattresses.",
-            new ArrayList<Drawable>());
-    private PointOfInterest redLionHotel = new PointOfInterest(3, 50.99907263622343, -4.397884284339087,
-            "Red Lion Hotel",
-            "The Red Lion Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s " +
-                    "ancient harbour.",
-            new ArrayList<Drawable>());
-    private PointOfInterest RNLILifeboatStation = new PointOfInterest(4, 50.99836498982892, -4.397444391999562,
-            "RNLI Lifeboat Station",
-            "Following " +
-                    "a terrible storm Clovelly’s first lifeboat station was built in 1870. Most of the " +
-                    "fishing fleet was destroyed with the loss of many lives. At only 33 feet long and " +
-                    "built of wood, the lifeboat was powered through the waves by a crew of sturdy rowers.",
-            new ArrayList<Drawable>());
-    private PointOfInterest clovellyCourtGardens = new PointOfInterest(5, 51.000409170390604, -4.4104924096382225,
-            "Clovelly Court Gardens",
-            "Charming walled garden, a few minutes drive from the Clovelly village car park .",
-            new ArrayList<Drawable>());
-
-    /**
-     * obtain a reference to the fragment_text instance and call the changeText() method on the object
-     * @param marker
-     */
-    public boolean onMarkerClick(Marker marker) {
-
-//        MapsFragment mMap = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
-
-        // the key for the HashMap is the Marker Title
-        String key = marker.getTitle();
-
-        // set the current PointOfInterest in the ViewModel *************
-        setCurrentPointOfInterest(key);
-
-        // get the PointOfInterest object from the HashMap using the key *************
-        PointOfInterest poi = getPointOfInterest(key);
-
-        // get the text and photo from the PointOfInterest object
-        String newTitleText = poi.getPlaceTitle();
-        String newDescriptionText = poi.getPlaceDescription();
-        ArrayList<Drawable> photos = poi.getPlacePhotos();
-
-        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
-
-        // clear text and photos
-        textFragment.clearTextFragment();
-
-        // Set the text in the Text fragment
-        textFragment.addText(newTitleText);
-        textFragment.addText(newDescriptionText);
-
-        // Set the photo(s) in the Text fragment
-        for(int i = 0; i < photos.size(); i++) {
-            Drawable newImage = photos.get(i);
-            textFragment.addPhoto(newImage);
-        }
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         View view = binding.getRoot();
         setContentView(view);
 
-        // create the database **************
-        createPointsOfInterestDatabase();
+        // create the pointsOfInterest database
+        parseXML();
 
         // create a list fragment
         ListFragment newListFragment = new ListFragment();
@@ -169,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         });
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
     private void breakPhotoConstraints(ConstraintSet set) {
         set.clear(R.id.map2, ConstraintSet.BOTTOM);
         set.clear(R.id.text, ConstraintSet.TOP);
@@ -176,15 +112,47 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         set.clear(R.id.text, ConstraintSet.START);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        // add all photos in the View Model *********************************
-        // can this be done somewhere else? **********************
-        addPhotosToPointsOfInterest();
+
+    /**
+     * obtain a reference to the fragment_text instance and call the changeText() method on the object
+     * @param marker
+     */
+    public boolean onMarkerClick(Marker marker) {
+
+//        MapsFragment mMap = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
+
+        // the key for the HashMap is the Marker Title
+        String key = marker.getTitle();
+
+        // set the current PointOfInterest in the ViewModel *************
+        setCurrentPointOfInterest(key);
+
+        // get the PointOfInterest object from the HashMap using the key *************
+        PointOfInterest poi = getPointOfInterest(key);
+
+        // get the text and photo from the PointOfInterest object
+        String newTitleText = poi.getPlaceTitle();
+        String newDescriptionText = poi.getPlaceDescription();
+        ArrayList<String> photos = poi.getPlacePhotos();
+
+        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
+
+        // clear text and photos
+        textFragment.clearTextFragment();
+
+        // Set the text in the Text fragment
+        textFragment.addText(newTitleText);
+        textFragment.addText(newDescriptionText);
+
+        // Set the photo(s) in the Text fragment
+        for(int i = 0; i < photos.size(); i++) {
+            String photoName = photos.get(i);
+            // Drawable newImage = getResources().getDrawable(getStringIdentifier(this, photoName), null);
+            // textFragment.addPhoto(newImage);
+        }
+        return true;
     }
-
 
     public void showMapTextFragments() {
         // hide the ListFragment
@@ -231,44 +199,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 .commitNow();
     }
 
-
-    /**
-     * This method adds the photos into the PointsOfInterest HashMap
-     * Doing it here as can't access drawable resources from within ViewModel
-     * see: https://stackoverflow.com/questions/51451819/how-to-get-context-in-android-mvvm-viewmodel
-     *
-     * TODO try putting just the name of the drawable inside the HashMap, then having the TextFragment and List Fragment extract using R.id.nameOfDrawable
-     *
-     */
-    public void addPhotosToPointsOfInterest() {
-
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.visitorcentre, null);
-        PointOfInterest poi = getPointOfInterest("Visitors Centre");
-        poi.addPlacePhoto(drawable);
-
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.donkeystables, null);
-        poi = getPointOfInterest("Donkey Stables");
-        poi.addPlacePhoto(drawable);
-
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.fishermanscottage, null);
-        poi = getPointOfInterest("Fisherman's Cottage");
-        poi.addPlacePhoto(drawable);
-
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.redlionhotel, null);
-        poi = getPointOfInterest("Red Lion Hotel");
-        poi.addPlacePhoto(drawable);
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.redlioninnoldback, null);
-        poi.addPlacePhoto(drawable);
-
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.rnli, null);
-        poi = getPointOfInterest("RNLI Lifeboat Station");
-        poi.addPlacePhoto(drawable);
-
-        drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.clovellycourtgardens, null);
-        poi = getPointOfInterest("Clovelly Court Gardens");
-        poi.addPlacePhoto(drawable);
-    }
-
     public Map<String, PointOfInterest> getPointsOfInterest() {
         return pointsOfInterest;
     }
@@ -278,17 +208,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         return pointsOfInterest.get(key);
     }
 
-
-    public void createPointsOfInterestDatabase() {
-        pointsOfInterest.put("Visitors Centre", visitorsCentre);
-        pointsOfInterest.put("Donkey Stables", donkeyStables);
-        pointsOfInterest.put("Fisherman's Cottage", fishermansCottage);
-        pointsOfInterest.put("Red Lion Hotel", redLionHotel);
-        pointsOfInterest.put("RNLI Lifeboat Station", RNLILifeboatStation);
-        pointsOfInterest.put("Clovelly Court Gardens", clovellyCourtGardens);
-    }
-
-
     public String getCurrentPointOfInterest() {
         return currentPointOfInterestKey;
     }
@@ -297,7 +216,65 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         this.currentPointOfInterestKey = currentPointOfInterestKey;
     }
 
+    private void parseXML() {
+        XmlPullParserFactory parseFactory;
+        try {
+            parseFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = parseFactory.newPullParser();
+            InputStream inputStream = getAssets().open("pointsofinterest.xml");
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(inputStream, null);
 
+            processParsing(parser);
+        }
+        catch (XmlPullParserException e) {}
+        catch (IOException e) {}
+    }
+
+    private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException {
+        int eventType = parser.getEventType();
+        PointOfInterest currentPointOfInterest = null;
+
+        while(eventType != XmlPullParser.END_DOCUMENT) {
+            String eltName = null;
+
+            switch(eventType) {
+                case XmlPullParser.START_TAG:
+                    eltName = parser.getName();
+
+                    if(eltName.equals("pointofinterest")) {
+                        currentPointOfInterest = new PointOfInterest();
+                    } else if(currentPointOfInterest != null) {
+                        if(eltName.equals("key")) {
+                            String thisKey = parser.nextText();
+                            pointsOfInterest.put(thisKey, currentPointOfInterest);
+                        } else if(eltName.equals("id")) {
+                            String Id = parser.nextText();
+                            int intId = Integer.parseInt(Id);
+                            currentPointOfInterest.setId(intId);
+                        } else if(eltName.equals("latitude")) {
+                            double latitude = Double.parseDouble(parser.nextText());
+                            currentPointOfInterest.setLatitude(latitude);
+                        } else if(eltName.equals("longitude")) {
+                            double longitude = Double.parseDouble(parser.nextText());
+                            currentPointOfInterest.setLongitude(longitude);
+                        } else if(eltName.equals("placetitle")) {
+                            currentPointOfInterest.setPlaceTitle(parser.nextText());
+                        } else if(eltName.equals("placedescription")) {
+                            currentPointOfInterest.setPlaceDescription(parser.nextText());
+                        } else if(eltName.equals("placephoto")) {
+                            currentPointOfInterest.setPlacePhoto(parser.nextText());
+                        }
+                    }
+                    break;
+            }
+            eventType = parser.next();
+        }
+    }
+
+    public static int getStringIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    }
 
 
 }
