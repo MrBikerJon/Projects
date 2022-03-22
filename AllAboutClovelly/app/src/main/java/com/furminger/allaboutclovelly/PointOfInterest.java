@@ -62,11 +62,14 @@ public class PointOfInterest {
         return placePhoto;
     }
 
+//    public Drawable getPlacePhotoDrawable() {
+//        Drawable drawable = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
+//        return drawable;
+//    }
+
     public void setPlacePhoto(String photoResourceName) {
         this.placePhoto.add(photoResourceName);
     }
-
-//    public void addPlacePhoto(Drawable drawable) { placePhoto.add(drawable); }
 
     public int getId() {
         return id;
@@ -75,5 +78,6 @@ public class PointOfInterest {
     public void setId(int id) {
         this.id = id;
     }
+
 
 }

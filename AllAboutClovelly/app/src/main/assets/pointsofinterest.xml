@@ -26,11 +26,7 @@
         <latitude>50.99795648517228</latitude>
         <longitude>-4.399230743006255</longitude>
         <placetitle>Fisherman's Cottage</placetitle>
-        <placedescription>Inside the cottage you can see how a Clovelly fisherman and his family lived in the
-            1930s. The parlour is decorated with domestic treasures of the period, including simple
-            cottage furniture, colourful pictures and religious engravings. The tiny kitchen is
-            plain but full of period charm. Upstairs there are two small bedrooms, a sail loft,
-            and an attic complete with straw mattresses.</placedescription>
+        <placedescription>Inside the cottage you can see how a Clovelly fisherman and his family lived in the 1930s. The parlour is decorated with domestic treasures of the period, including simple cottage furniture, colourful pictures and religious engravings. The tiny kitchen is plain but full of period charm. Upstairs there are two small bedrooms, a sail loft, and an attic complete with straw mattresses.</placedescription>
         <placephoto>fishermanscottage</placephoto>
     </pointofinterest>
 
@@ -42,6 +38,7 @@
         <placetitle>Red Lion Hotel</placetitle>
         <placedescription>The Red Lion Hotel is an 18th Century 4-star Inn that stands on the quay alongside Clovelly’s ancient harbour.</placedescription>
         <placephoto>redlionhotel</placephoto>
+        <placephoto>redlioninnoldback</placephoto>
     </pointofinterest>
 
 

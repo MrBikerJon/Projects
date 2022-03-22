@@ -80,4 +80,6 @@ public class ListFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

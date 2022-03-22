@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private Fragment textFragment;
     private Fragment listFragment;
     private Map<String, PointOfInterest> pointsOfInterest = new HashMap<>();
-//    private Drawable drawable;
     private String currentPointOfInterestKey;
 
     @Override
@@ -148,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         // Set the photo(s) in the Text fragment
         for(int i = 0; i < photos.size(); i++) {
             String photoName = photos.get(i);
-            // Drawable newImage = getResources().getDrawable(getStringIdentifier(this, photoName), null);
-            // textFragment.addPhoto(newImage);
+            Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
+            textFragment.addPhoto(newImage);
         }
         return true;
     }
@@ -206,10 +205,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     public PointOfInterest getPointOfInterest(String key) {
         return pointsOfInterest.get(key);
-    }
-
-    public String getCurrentPointOfInterest() {
-        return currentPointOfInterestKey;
     }
 
     public void setCurrentPointOfInterest(String currentPointOfInterestKey) {
@@ -272,9 +267,13 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         }
     }
 
-    public static int getStringIdentifier(Context context, String name) {
-        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    public int getDrawableIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "drawable", context.getPackageName());
     }
 
+    public Drawable getPhoto(String photoName) {
+        Drawable drawable = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
+        return drawable;
+    }
 
 }

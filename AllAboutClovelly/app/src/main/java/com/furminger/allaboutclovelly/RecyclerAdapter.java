@@ -1,6 +1,7 @@
 package com.furminger.allaboutclovelly;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.furminger.allaboutclovelly.ui.main.ListFragment;
 
 import java.util.Map;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private final String TAG = "mapDemo";
+    private Context context;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -75,13 +80,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         }
 
+        // https://stackoverflow.com/questions/42468113/how-can-i-use-getresources-inside-of-onbindviewholder
+        Resources res = viewHolder.itemView.getContext().getResources();
+
         viewHolder.itemTitle.setText(pointsOfInterest.get(key).getPlaceTitle());
         viewHolder.itemDetail.setText(pointsOfInterest.get(key).getPlaceDescription());
 
         String photoName = pointsOfInterest.get(key).getPlacePhotos().get(0);
-//        Drawable newImage = getResources().getDrawable(getStringIdentifier(this, photoName), null);
+        Log.i(TAG, "photoName = " + photoName);
 
-//        viewHolder.itemImage.setImageDrawable(pointsOfInterest.get(key).getPlacePhotos().get(0));
+        context = viewHolder.itemView.getContext();
+
+        Drawable newImage = res.getDrawable(getDrawableIdentifier(context, photoName), null);
+
+//        Drawable newImage = res.getDrawable(getDrawableIdentifier(context, photoName), null);
+                //MainActivity.getContext().getDrawable(getDrawableIdentifier(context, photoName));
+        Log.i(TAG, "newImage = " + newImage);
+        viewHolder.itemImage.setImageDrawable(newImage);
     }
 
     @Override
@@ -89,10 +104,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return pointsOfInterest.size();
     }
 
-
-
-    public static int getStringIdentifier(Context context, String name) {
-        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    public int getDrawableIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "drawable", context.getPackageName());
     }
 
 }
