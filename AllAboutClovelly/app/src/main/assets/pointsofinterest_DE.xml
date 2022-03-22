@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pointsofinterest>
+    <pointofinterest>
+        <key>Besucherzentrum</key>
+        <id>0</id>
+        <latitude>50.99922758761011</latitude>
+        <longitude>-4.40493487281753</longitude>
+        <placetitle>Besucherzentrum</placetitle>
+        <placedescription>Das Besucherzentrum ist, wo.......</placedescription>
+        <placephoto>visitorcentre</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>Eselsstall</key>
+        <id>1</id>
+        <latitude>50.999443650702425</latitude>
+        <longitude>-4.402059544653397</longitude>
+        <placetitle>Eselsstall</placetitle>
+        <placedescription>Die Eselsställe in Clovelly sind fast so alt wie das Dorf selbst.</placedescription>
+        <placephoto>donkeystables</placephoto>
+    </pointofinterest>
+
+
+    <pointofinterest>
+        <key>Fischerhaus</key>
+        <id>2</id>
+        <latitude>50.99795648517228</latitude>
+        <longitude>-4.399230743006255</longitude>
+        <placetitle>Fischerhaus</placetitle>
+        <placedescription>In der Hütte können Sie sehen, wie ein Clovelly-Fischer und seine Familie in den 1930er Jahren lebten. Die Stube ist mit heimischen Schätzen der Zeit dekoriert, darunter einfache Hüttenmöbel, farbenfrohe Bilder und religiöse Gravuren. Die winzige Küche ist schlicht, aber voller historischem Charme. Im Obergeschoss befinden sich zwei kleine Schlafzimmer, ein Segelloft und ein Dachboden mit Strohmatratzen.</placedescription>
+        <placephoto>fishermanscottage</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>Red Lion Hotel</key>
+        <id>3</id>
+        <latitude>50.99907263622343</latitude>
+        <longitude>-4.397884284339087</longitude>
+        <placetitle>Red Lion Hotel</placetitle>
+        <placedescription>Das Red Lion Hotel ist ein 4-Sterne-Gasthaus aus dem 18. Jahrhundert, das am Kai neben dem alten Hafen von Clovelly liegt.</placedescription>
+        <placephoto>redlionhotel</placephoto>
+        <placephoto>redlioninnoldback</placephoto>
+    </pointofinterest>
+
+
+    <pointofinterest>
+        <key>RNLI Lifeboat Station</key>
+        <id>4</id>
+        <latitude>50.99836498982892</latitude>
+        <longitude>-4.397444391999562</longitude>
+        <placetitle>RNLI Lifeboat Station</placetitle>
+        <placedescription>Nach einem schrecklichen Sturm wurde 1870 die erste Rettungsbootstation von Clovelly gebaut. Der größte Teil der Fischereiflotte wurde mit dem Verlust vieler Menschenleben zerstört. Mit einer Länge von nur 33 Fuß (10 Metern) und Holz wurde das Rettungsboot von einer Besatzung robuster Ruderer durch die Wellen angetrieben.</placedescription>
+        <placephoto>rnli</placephoto>
+    </pointofinterest>
+
+
+    <pointofinterest>
+        <key>Clovelly Court Gardens</key>
+        <id>5</id>
+        <latitude>51.000409170390604</latitude>
+        <longitude>-4.4104924096382225</longitude>
+        <placetitle>Clovelly Court Gardens</placetitle>
+        <placedescription>Charmanter ummauerter Garten, nur wenige Autominuten vom Parkplatz des Dorfes Clovelly entfernt.</placedescription>
+        <placephoto>clovellycourtgardens</placephoto>
+    </pointofinterest>
+
+</pointsofinterest>

@@ -94,7 +94,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             LatLng clovelly = new LatLng(50.998128, -4.399118);
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(clovelly)
-                    .zoom(19)
+                    .zoom(16)
                     .build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 

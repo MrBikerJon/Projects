@@ -7,12 +7,14 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.furminger.allaboutclovelly.databinding.ActivityMainBinding;
 import com.furminger.allaboutclovelly.ui.main.ListFragment;
@@ -29,15 +31,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
 
-    // TODO place markers on map using SQL database
-
     private final String TAG = "mapDemo";
 
-    private ActivityMainBinding binding;
     private final int MAP_TEXT_FRAGMENTS = 0;
     private final int LIST_FRAGMENT = 1;
     private int currentFragment = MAP_TEXT_FRAGMENTS;
@@ -45,15 +45,25 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private Fragment mapsFragment;
     private Fragment textFragment;
     private Fragment listFragment;
-    private Map<String, PointOfInterest> pointsOfInterest = new HashMap<>();
-    private String currentPointOfInterestKey;
+    private final Map<String, PointOfInterest> pointsOfInterest = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.furminger.allaboutclovelly.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        // looking for "W/System: A resource failed to call close" in Logcat
+        try {
+            Class.forName("dalvik.system.CloseGuard")
+                    .getMethod("setEnabled", boolean.class)
+                    .invoke(null, true);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+
+
 
         // create the pointsOfInterest database
         parseXML();
@@ -111,23 +121,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         set.clear(R.id.text, ConstraintSet.START);
     }
 
-
-
     /**
      * obtain a reference to the fragment_text instance and call the changeText() method on the object
-     * @param marker
+     * @param marker The marker coming from the map fragment
      */
     public boolean onMarkerClick(Marker marker) {
-
-//        MapsFragment mMap = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
 
         // the key for the HashMap is the Marker Title
         String key = marker.getTitle();
 
-        // set the current PointOfInterest in the ViewModel *************
         setCurrentPointOfInterest(key);
 
-        // get the PointOfInterest object from the HashMap using the key *************
+        // get the PointOfInterest object from the HashMap using the key
         PointOfInterest poi = getPointOfInterest(key);
 
         // get the text and photo from the PointOfInterest object
@@ -138,16 +143,16 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
 
         // clear text and photos
+        assert textFragment != null;
         textFragment.clearTextFragment();
 
         // Set the text in the Text fragment
-        textFragment.addText(newTitleText);
-        textFragment.addText(newDescriptionText);
+        textFragment.addText(newTitleText, 20, true);
+        textFragment.addText(newDescriptionText, 14, false);
 
         // Set the photo(s) in the Text fragment
         for(int i = 0; i < photos.size(); i++) {
-            String photoName = photos.get(i);
-            Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photos.get(i)), null);
             textFragment.addPhoto(newImage);
         }
         return true;
@@ -208,22 +213,34 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     public void setCurrentPointOfInterest(String currentPointOfInterestKey) {
-        this.currentPointOfInterestKey = currentPointOfInterestKey;
     }
 
     private void parseXML() {
+
+        String fileName;
+        String languagename = Locale.getDefault().getDisplayLanguage();
+        switch(languagename) {
+            case "English" :
+                fileName = "pointsofinterest.xml";
+                break;
+            case "Deutsch" :
+                fileName = "pointsofinterest_DE.xml";
+                break;
+            default:
+                fileName = "pointsofinterest.xml";
+        }
+
         XmlPullParserFactory parseFactory;
         try {
             parseFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = parseFactory.newPullParser();
-            InputStream inputStream = getAssets().open("pointsofinterest.xml");
+            InputStream inputStream = getAssets().open(fileName);
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(inputStream, null);
 
             processParsing(parser);
         }
-        catch (XmlPullParserException e) {}
-        catch (IOException e) {}
+        catch (XmlPullParserException | IOException ignored) {}
     }
 
     private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -231,37 +248,38 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         PointOfInterest currentPointOfInterest = null;
 
         while(eventType != XmlPullParser.END_DOCUMENT) {
-            String eltName = null;
+            String eltName;
 
-            switch(eventType) {
-                case XmlPullParser.START_TAG:
-                    eltName = parser.getName();
+            if (eventType == XmlPullParser.START_TAG) {
+                eltName = parser.getName();
 
-                    if(eltName.equals("pointofinterest")) {
-                        currentPointOfInterest = new PointOfInterest();
-                    } else if(currentPointOfInterest != null) {
-                        if(eltName.equals("key")) {
-                            String thisKey = parser.nextText();
-                            pointsOfInterest.put(thisKey, currentPointOfInterest);
-                        } else if(eltName.equals("id")) {
-                            String Id = parser.nextText();
-                            int intId = Integer.parseInt(Id);
-                            currentPointOfInterest.setId(intId);
-                        } else if(eltName.equals("latitude")) {
-                            double latitude = Double.parseDouble(parser.nextText());
-                            currentPointOfInterest.setLatitude(latitude);
-                        } else if(eltName.equals("longitude")) {
-                            double longitude = Double.parseDouble(parser.nextText());
-                            currentPointOfInterest.setLongitude(longitude);
-                        } else if(eltName.equals("placetitle")) {
+                if (eltName.equals("pointofinterest")) {
+                    currentPointOfInterest = new PointOfInterest();
+                } else if (currentPointOfInterest != null) {
+                    switch (eltName) {
+                        case "key":
+                            pointsOfInterest.put(parser.nextText(), currentPointOfInterest);
+                            break;
+                        case "id":
+                            currentPointOfInterest.setId(Integer.parseInt(parser.nextText()));
+                            break;
+                        case "latitude":
+                            currentPointOfInterest.setLatitude(Double.parseDouble(parser.nextText()));
+                            break;
+                        case "longitude":
+                            currentPointOfInterest.setLongitude(Double.parseDouble(parser.nextText()));
+                            break;
+                        case "placetitle":
                             currentPointOfInterest.setPlaceTitle(parser.nextText());
-                        } else if(eltName.equals("placedescription")) {
+                            break;
+                        case "placedescription":
                             currentPointOfInterest.setPlaceDescription(parser.nextText());
-                        } else if(eltName.equals("placephoto")) {
+                            break;
+                        case "placephoto":
                             currentPointOfInterest.setPlacePhoto(parser.nextText());
-                        }
+                            break;
                     }
-                    break;
+                }
             }
             eventType = parser.next();
         }
@@ -272,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     public Drawable getPhoto(String photoName) {
-        Drawable drawable = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
         return drawable;
     }
 

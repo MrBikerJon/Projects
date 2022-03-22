@@ -15,6 +15,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.furminger.allaboutclovelly.ui.main.ListFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Map;
 
@@ -34,7 +35,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             itemImage = itemView.findViewById(R.id.itemImage);
             itemTitle = itemView.findViewById(R.id.itemTitle);
             itemDetail = itemView.findViewById(R.id.itemDetail);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+
+                    int position = getAdapterPosition();
+
+                    Snackbar.make(v, "Click detected on item " + (position + 1),
+                            Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                }
+            });
         }
+
+
     }
 
     private Map<String, PointOfInterest> pointsOfInterest;
@@ -87,7 +102,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         viewHolder.itemDetail.setText(pointsOfInterest.get(key).getPlaceDescription());
 
         String photoName = pointsOfInterest.get(key).getPlacePhotos().get(0);
-        Log.i(TAG, "photoName = " + photoName);
 
         context = viewHolder.itemView.getContext();
 
@@ -95,7 +109,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 //        Drawable newImage = res.getDrawable(getDrawableIdentifier(context, photoName), null);
                 //MainActivity.getContext().getDrawable(getDrawableIdentifier(context, photoName));
-        Log.i(TAG, "newImage = " + newImage);
         viewHolder.itemImage.setImageDrawable(newImage);
     }
 
