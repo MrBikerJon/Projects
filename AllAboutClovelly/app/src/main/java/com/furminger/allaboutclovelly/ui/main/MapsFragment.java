@@ -88,7 +88,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mapSettings.setRotateGesturesEnabled(true);
             mapSettings.setMyLocationButtonEnabled(true);
 
-            mMap.setPadding(0, 150, 150, 150);
+            mMap.setPadding(0, 0, 0, 0);
 
             // zoom in on the centre of Clovelly
             LatLng clovelly = new LatLng(50.998128, -4.399118);

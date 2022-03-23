@@ -1,6 +1,7 @@
 package com.furminger.allaboutclovelly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -11,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.furminger.allaboutclovelly.ui.main.ListFragment;
+import com.furminger.allaboutclovelly.ui.main.TextFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Map;
@@ -37,13 +40,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             itemDetail = itemView.findViewById(R.id.itemDetail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
+                @Override public void onClick(View view) {
 
-                    int position = getAdapterPosition();
+                    int position = getAbsoluteAdapterPosition();
 
-                    Snackbar.make(v, "Click detected on item " + (position + 1),
+                    Snackbar.make(view, "Click detected on item " + (position + 1),
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
+                    // https://stackoverflow.com/questions/34310592/how-open-fragment-from-recyclerview-adaptercardadapter-viewholder
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    BlankFragment blankFragment = new BlankFragment();
+//                    textFragment.clearTextFragment();
+//                    textFragment.addText("Hello world", 20, false);
+                    activity.getSupportFragmentManager()
+                            .beginTransaction().
+                            replace(R.id.activity_main, blankFragment)
+                            .addToBackStack(null)
+                            .commit();
 
                 }
             });
