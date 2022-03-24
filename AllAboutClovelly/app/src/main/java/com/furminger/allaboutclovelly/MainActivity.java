@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
             throw new RuntimeException(e);
         }
 
-
-
         // create the pointsOfInterest database
         parseXML();
 
@@ -157,6 +155,45 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         }
         return true;
     }
+
+
+    /**
+     * obtain a reference to the fragment_text instance and call the changeText() method on the object
+     * @param marker The marker coming from the map fragment
+     */
+    public boolean onListItemClick(Marker marker) {
+
+        // the key for the HashMap is the Marker Title
+        String key = marker.getTitle();
+
+        setCurrentPointOfInterest(key);
+
+        // get the PointOfInterest object from the HashMap using the key
+        PointOfInterest poi = getPointOfInterest(key);
+
+        // get the text and photo from the PointOfInterest object
+        String newTitleText = poi.getPlaceTitle();
+        String newDescriptionText = poi.getPlaceDescription();
+        ArrayList<String> photos = poi.getPlacePhotos();
+
+        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
+
+        // clear text and photos
+        assert textFragment != null;
+        textFragment.clearTextFragment();
+
+        // Set the text in the Text fragment
+        textFragment.addText(newTitleText, 20, true);
+        textFragment.addText(newDescriptionText, 14, false);
+
+        // Set the photo(s) in the Text fragment
+        for(int i = 0; i < photos.size(); i++) {
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photos.get(i)), null);
+            textFragment.addPhoto(newImage);
+        }
+        return true;
+    }
+
 
     public void showMapTextFragments() {
         // hide the ListFragment

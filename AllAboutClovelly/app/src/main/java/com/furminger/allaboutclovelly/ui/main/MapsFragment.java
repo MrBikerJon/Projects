@@ -45,6 +45,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     FragmentMapsBinding binding;
     private final String TAG = "mapDemo";
 
+    // listener that allows the fragment to call the MainActivity when the marker is clicked
+    GoogleMap.OnMarkerClickListener activityCallback;
+
         /**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
@@ -113,12 +116,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             ActivityCompat.requestPermissions(activity, new String[]{permissionType}, requestCode);
         }
 
-
-    /**
-     * set up a listener that will allow the fragment to call the MainActivity when the marker
-     * is clicked
-     */
-    GoogleMap.OnMarkerClickListener activityCallback;
 
     public interface OnMarkerClickListener {
         public void onMarkerClick(Marker marker);
