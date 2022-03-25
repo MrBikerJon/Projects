@@ -22,6 +22,7 @@ import com.furminger.allaboutclovelly.ui.main.MapsFragment;
 import com.furminger.allaboutclovelly.ui.main.TextFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
+public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, RecyclerAdapter.switchBlankFragment {
 
     private final String TAG = "mapDemo";
 
@@ -68,12 +69,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         // create a list fragment
         ListFragment newListFragment = new ListFragment();
+        BlankFragment newBlankFragment = new BlankFragment();
 
         // create a fragment manager
         fragmentManager = getSupportFragmentManager();
         // add a new list_fragment to the view, with a tag so it can be accessed by the fragment manager
         fragmentManager.beginTransaction()
                 .add(R.id.activity_main, newListFragment, "list_tag")
+                .add(R.id.activity_main, newBlankFragment, "blank_tag")
+                .hide(newBlankFragment)
                 .commitNow();
 
         // allocate Fragments so they can be accessed by fragment manager
@@ -104,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 }
             }
         });
+
+
     }
 
 
@@ -124,44 +130,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
      * @param marker The marker coming from the map fragment
      */
     public boolean onMarkerClick(Marker marker) {
-
-        // the key for the HashMap is the Marker Title
-        String key = marker.getTitle();
-
-        setCurrentPointOfInterest(key);
-
-        // get the PointOfInterest object from the HashMap using the key
-        PointOfInterest poi = getPointOfInterest(key);
-
-        // get the text and photo from the PointOfInterest object
-        String newTitleText = poi.getPlaceTitle();
-        String newDescriptionText = poi.getPlaceDescription();
-        ArrayList<String> photos = poi.getPlacePhotos();
-
-        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
-
-        // clear text and photos
-        assert textFragment != null;
-        textFragment.clearTextFragment();
-
-        // Set the text in the Text fragment
-        textFragment.addText(newTitleText, 20, true);
-        textFragment.addText(newDescriptionText, 14, false);
-
-        // Set the photo(s) in the Text fragment
-        for(int i = 0; i < photos.size(); i++) {
-            @SuppressLint("UseCompatLoadingForDrawables") Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photos.get(i)), null);
-            textFragment.addPhoto(newImage);
-        }
-        return true;
-    }
-
-
-    /**
-     * obtain a reference to the fragment_text instance and call the changeText() method on the object
-     * @param marker The marker coming from the map fragment
-     */
-    public boolean onListItemClick(Marker marker) {
 
         // the key for the HashMap is the Marker Title
         String key = marker.getTitle();
@@ -331,4 +299,53 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         return drawable;
     }
 
+
+//    /**
+//     * method called by the RecyclerAdapter when a click is detected on an item. This method
+//     * will open a new fragment and display the details related to the item passed across
+//     */
+//
+//    public void newDetailsFragment(String str) {
+//        Log.i(TAG, "Position " + str + " received");
+//
+//        BlankFragment blankFragment = (BlankFragment) getSupportFragmentManager().findFragmentByTag("blank_tag");
+//
+////        BlankFragment blankFragment = new BlankFragment();
+//
+////        assert blankFragment != null;
+//
+//
+//        assert blankFragment != null;
+//        blankFragment.clearTextFragment();
+//        blankFragment.addText(str, 20, true);
+//
+//        this.getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.activity_main, blankFragment)
+//                .addToBackStack(null)
+//                .commit();
+//    }
+
+
+    @Override
+    public void displayBlankFragment(String position) {
+        Log.i(TAG, "Position " + position + " received");
+
+//        BlankFragment blankFragment = (BlankFragment) getSupportFragmentManager().findFragmentByTag("blank_tag");
+//
+////        BlankFragment blankFragment = new BlankFragment();
+//
+////        assert blankFragment != null;
+//
+//
+//        assert blankFragment != null;
+//        blankFragment.clearTextFragment();
+//        blankFragment.addText(position, 20, true);
+//
+//        this.getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.activity_main, blankFragment)
+//                .addToBackStack(null)
+//                .commit();
+    }
 }

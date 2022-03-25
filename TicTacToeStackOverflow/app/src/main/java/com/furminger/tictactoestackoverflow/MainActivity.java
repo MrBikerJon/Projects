@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     Toast msg;
     ImageView img, img2, img3, img4, img5, img6, img7, img8, img9;
 
-    int o = 1;
-    int x = 2;
+//    int o = 1;
+//    int x = 2;
 
     List<Integer> winner = new ArrayList<>(9);
 
@@ -28,70 +28,70 @@ public class MainActivity extends AppCompatActivity {
     boolean gstate = true;
 
     //oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO
-//
-//    public void isOm() {
-//        if (counter % 2 != 0 && img5.getDrawable() != null) {
-//            winner.set(4, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOmr() {
-//        if (counter % 2 != 0 && img6.getDrawable() != null) {
-//            winner.set(5, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOml() {
-//        if (counter % 2 != 0 && img4.getDrawable() != null) {
-//            winner.set(3, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOru() {
-//        if (counter % 2 != 0 && img3.getDrawable() != null) {
-//            winner.set(2, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOmu() {
-//        if (counter % 2 != 0 && img2.getDrawable() != null) {
-//            winner.set(1, 1);
-//        } else {
-//        }
-//    }
-//
-//
-//    public void isOlu() {
-//        if (counter % 2 != 0 && img.getDrawable() != null) {
-//            winner.set(0, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOdr() {
-//        if (counter % 2 != 0 && img9.getDrawable() != null) {
-//            winner.set(8, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOmd() {
-//        if (counter % 2 != 0 && img8.getDrawable() != null) {
-//            winner.set(7, 1);
-//        } else {
-//        }
-//    }
-//
-//    public void isOdl() {
-//        if (counter % 2 != 0 && img7.getDrawable() != null) {
-//            winner.set(6, 1);
-//        } else {
-//        }
-//    }
+
+    public void isOm() {
+        if (counter % 2 != 0 && img5.getDrawable() != null) {
+            winner.set(4, 1);
+        } else {
+        }
+    }
+
+    public void isOmr() {
+        if (counter % 2 != 0 && img6.getDrawable() != null) {
+            winner.set(5, 1);
+        } else {
+        }
+    }
+
+    public void isOml() {
+        if (counter % 2 != 0 && img4.getDrawable() != null) {
+            winner.set(3, 1);
+        } else {
+        }
+    }
+
+    public void isOru() {
+        if (counter % 2 != 0 && img3.getDrawable() != null) {
+            winner.set(2, 1);
+        } else {
+        }
+    }
+
+    public void isOmu() {
+        if (counter % 2 != 0 && img2.getDrawable() != null) {
+            winner.set(1, 1);
+        } else {
+        }
+    }
+
+
+    public void isOlu() {
+        if (counter % 2 != 0 && img.getDrawable() != null) {
+            winner.set(0, 1);
+        } else {
+        }
+    }
+
+    public void isOdr() {
+        if (counter % 2 != 0 && img9.getDrawable() != null) {
+            winner.set(8, 1);
+        } else {
+        }
+    }
+
+    public void isOmd() {
+        if (counter % 2 != 0 && img8.getDrawable() != null) {
+            winner.set(7, 1);
+        } else {
+        }
+    }
+
+    public void isOdl() {
+        if (counter % 2 != 0 && img7.getDrawable() != null) {
+            winner.set(6, 1);
+        } else {
+        }
+    }
 
     //oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO
 
@@ -165,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean oWin() {
         try {
-            if(((img.getDrawable() != null) && (img2.getDrawable() != null) && (img3.getDrawable() != null) && ((int)winner.get(0) == 1) && ((int)winner.get(1) == 1) && ((int)winner.get(2) == 1)) || ((img4.getDrawable() != null) && (img5.getDrawable() != null) && (img6.getDrawable() != null) && ((int)winner.get(3) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(5) == 1)) || ((img7.getDrawable() != null) && (img8.getDrawable() != null) && (img9.getDrawable() != null) && ((int)winner.get(6) == 1) && ((int)winner.get(7) == 1) && ((int)winner.get(8) == 1)) || ((img.getDrawable() != null) && (img4.getDrawable() != null) && (img7.getDrawable() != null) && ((int)winner.get(0) == 1) && ((int)winner.get(3) == 1) && ((int)winner.get(6) == 1)) || ((img2.getDrawable() != null) && (img5.getDrawable() != null) && (img8.getDrawable() != null) && ((int)winner.get(1) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(7) == 1)) || ((img3.getDrawable() != null) && (img6.getDrawable() != null) && (img9.getDrawable() != null) && ((int)winner.get(2) == 1) && ((int)winner.get(5) == 1) && ((int)winner.get(8) == 1)) || ((img.getDrawable() != null) && (img5.getDrawable() != null) && (img9.getDrawable() != null) && ((int)winner.get(0) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(8) == 1)) || ((img3.getDrawable() != null) && (img5.getDrawable() != null) && (img7.getDrawable() != null) && ((int)winner.get(2) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(6) == 1))){
+            Log.i("xxx", "winner 0, 1, 2 is " + winner.get(0) + " " + winner.get(1) + " " + winner.get(2));
+            if(((winner.get(0) == 1) && (winner.get(1) == 1) && (winner.get(2) == 1)) || ((img4.getDrawable() != null) && (img5.getDrawable() != null) && (img6.getDrawable() != null) && ((int)winner.get(3) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(5) == 1)) || ((img7.getDrawable() != null) && (img8.getDrawable() != null) && (img9.getDrawable() != null) && ((int)winner.get(6) == 1) && ((int)winner.get(7) == 1) && ((int)winner.get(8) == 1)) || ((img.getDrawable() != null) && (img4.getDrawable() != null) && (img7.getDrawable() != null) && ((int)winner.get(0) == 1) && ((int)winner.get(3) == 1) && ((int)winner.get(6) == 1)) || ((img2.getDrawable() != null) && (img5.getDrawable() != null) && (img8.getDrawable() != null) && ((int)winner.get(1) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(7) == 1)) || ((img3.getDrawable() != null) && (img6.getDrawable() != null) && (img9.getDrawable() != null) && ((int)winner.get(2) == 1) && ((int)winner.get(5) == 1) && ((int)winner.get(8) == 1)) || ((img.getDrawable() != null) && (img5.getDrawable() != null) && (img9.getDrawable() != null) && ((int)winner.get(0) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(8) == 1)) || ((img3.getDrawable() != null) && (img5.getDrawable() != null) && (img7.getDrawable() != null) && ((int)winner.get(2) == 1) && ((int)winner.get(4) == 1) && ((int)winner.get(6) == 1))){
                 owin = true;
             }
             return owin;
@@ -210,6 +211,8 @@ public class MainActivity extends AppCompatActivity {
         //img9 = (ImageView) findViewById(R.id.imageView9);
         img9.setImageResource(0);
         gstate = true;
+        owin = false; // added
+        xwin = false; // added
     }
 
     public void pgame(View view) {
@@ -228,17 +231,21 @@ public class MainActivity extends AppCompatActivity {
         if (image.getDrawable() != null) {
             msg = Toast.makeText(this, "Please select another space", Toast.LENGTH_SHORT);
             msg.show();
-
-            Log.i("xxx", "Winner size = " + winner.size());
+        } // moved the closing bracket to here
 
             if((ImageView)view == img){
                 winner.set(0, 1);
+                Log.i("xxx", "winner 0 = " + winner.get(0));
             }
             else if((ImageView)view == img2){
                 winner.set(1, 1);
+                Log.i("xxx", "winner 1 = " + winner.get(1));
+
             }
             else if((ImageView)view == img3){
                 winner.set(2, 1);
+                Log.i("xxx", "winner 2 = " + winner.get(2));
+
             }
             else if((ImageView)view == img4){
                 winner.set(3, 1);
@@ -260,12 +267,18 @@ public class MainActivity extends AppCompatActivity {
             }
             else if((ImageView)view == img){
                 winner.set(0, 2);
+                Log.i("xxx", "winner 0 = " + winner.get(2));
+
             }
             else if((ImageView)view == img2){
                 winner.set(1, 2);
+                Log.i("xxx", "winner 1 = " + winner.get(2));
+
             }
             else if((ImageView)view == img3){
                 winner.set(2, 2);
+                Log.i("xxx", "winner 2 = " + winner.get(2));
+
             }
             else if((ImageView)view == img4){
                 winner.set(3, 2);
@@ -286,10 +299,14 @@ public class MainActivity extends AppCompatActivity {
                 winner.set(8, 2);
             }
 
-            if (counter > 5 && counter < 9){
-                this.xWin();
-                this.oWin();
-            }
+//            if (counter > 5 && counter < 9){ commented out the if check to just check for a winner every move
+                Log.i("xxx", "checking to call xWin");
+                boolean xwin = xWin(); // changed code here from this.xWin();
+                boolean owin = oWin();  // changed code here from this.xWin();
+                Log.i("xxx", "owin = " + owin);
+                Log.i("xxx", "xwin = " + xwin);
+
+//            }
 
             if (owin) {
                 msg = Toast.makeText(this, "\'O\' is the winner, press the reset button", Toast.LENGTH_SHORT);
@@ -305,17 +322,18 @@ public class MainActivity extends AppCompatActivity {
                 gstate = false;
             }
 
-        }
+
 
         if (image.getDrawable() == null) {
             if (counter % 2 == 0) {
                 image.setImageResource(R.drawable.o);
+                Log.i("xxx", "counter = " + counter);
                 counter += 1;
 
             } else {
                 image.setImageResource(R.drawable.x);
+                Log.i("xxx", "counter = " + counter);
                 counter += 1;
-
             }
 
             image.setTranslationY(-1500);
@@ -331,14 +349,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         winner.add(0);
-        winner.add(1);
-        winner.add(2);
-        winner.add(3);
-        winner.add(4);
-        winner.add(5);
-        winner.add(5);
-        winner.add(7);
-        winner.add(8);
+        winner.add(0);
+        winner.add(0);
+        winner.add(0);
+        winner.add(0);
+        winner.add(0);
+        winner.add(0);
+        winner.add(0);
+        winner.add(0);
 
 
 //        img = (ImageView) findViewById(R.id.imageView);

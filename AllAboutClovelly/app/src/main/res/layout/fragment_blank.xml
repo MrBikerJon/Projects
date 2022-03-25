@@ -9,10 +9,9 @@
     tools:context=".BlankFragment">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/detailTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

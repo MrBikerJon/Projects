@@ -25,8 +25,15 @@ import java.util.Map;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private final String TAG = "mapDemo";
-    private Context context;
+    private static Context context;
+    private switchBlankFragment;
 
+
+    private Map<String, PointOfInterest> pointsOfInterest;
+
+    /**
+     * static ViewHolder class for the RecyclerView
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemImage;
@@ -44,30 +51,42 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                     int position = getAbsoluteAdapterPosition();
 
+                    // call a method in the MainActivity. Pass in the int position.
+                    // that method will
+                    // 1. open a new window
+                    // 2. display the correct point of interest details related to that position
+
+                    String str = itemTitle.getText().toString();
+//                    ((MainActivity)context).newDetailsFragment(str);
+                    displayBlankFragment(str);
+
                     Snackbar.make(view, "Click detected on item " + (position + 1),
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
-                    // https://stackoverflow.com/questions/34310592/how-open-fragment-from-recyclerview-adaptercardadapter-viewholder
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    BlankFragment blankFragment = new BlankFragment();
-//                    textFragment.clearTextFragment();
-//                    textFragment.addText("Hello world", 20, false);
-                    activity.getSupportFragmentManager()
-                            .beginTransaction().
-                            replace(R.id.activity_main, blankFragment)
-                            .addToBackStack(null)
-                            .commit();
 
+
+                    // Open a new BlankFragment to display the details. This should be done by the Activity in the Callback
+                    // https://stackoverflow.com/questions/34310592/how-open-fragment-from-recyclerview-adaptercardadapter-viewholder
+//                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+//                    BlankFragment blankFragment = new BlankFragment();
+////                    textFragment.clearTextFragment();
+////                    textFragment.addText("Hello world", 20, false);
+//                    activity.getSupportFragmentManager()
+//                            .beginTransaction().
+//                            replace(R.id.activity_main, blankFragment)
+//                            .addToBackStack(null)
+//                            .commit();
                 }
             });
         }
-
-
     }
 
-    private Map<String, PointOfInterest> pointsOfInterest;
 
+    /**
+     * constructor for the RecyclerAdapter
+     * @param pointsOfInterest
+     */
     public RecyclerAdapter(Map<String, PointOfInterest> pointsOfInterest) {
         super();
         this.pointsOfInterest = pointsOfInterest;
@@ -75,7 +94,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     /**
-     * This method will be called by the RecyclerView to obtain a ViewHolder object.
+     * Called by the RecyclerView to obtain a ViewHolder object.
      * It inflates the view hierarchy card_layout.xml file and creates an instance of
      * the ViewHolder class initialized with the view hierarchy, before returning it to
      * the RecyclerView.
@@ -127,6 +146,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
+    public void onAttach(Context context)
+    {
+        super.onCreate();
+
+    }
+
+    @Override
     public int getItemCount() {
         return pointsOfInterest.size();
     }
@@ -134,6 +160,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public int getDrawableIdentifier(Context context, String name) {
         return context.getResources().getIdentifier(name, "drawable", context.getPackageName());
     }
+
+
+
 
 }
 
