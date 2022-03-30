@@ -55,26 +55,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     // 1. open a new window
                     // 2. display the correct point of interest details related to that position
 
-                    Snackbar.make(view, "Click detected on item " + (position + 1),
-                            Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-
                     // Open a new BlankFragment to display the details. This should be done by the Activity in the Callback
                     // https://stackoverflow.com/questions/34310592/how-open-fragment-from-recyclerview-adaptercardadapter-viewholder
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-//                    blankFragment = (BlankFragment) activity.getSupportFragmentManager().findFragmentByTag("blank_tag");
+                    BlankFragment blankFragment = new BlankFragment(itemTitle.getText().toString(), itemDetail.getText().toString(),
+                            itemImage.getDrawable());
 
-                    BlankFragment blankFragment = new BlankFragment(itemTitle.getText().toString(), itemDetail.getText().toString());
-//                    textFragment.clearTextFragment();
-//                    textFragment.addText("Hello world", 20, false);
                     activity.getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.activity_main, blankFragment)
                             .addToBackStack(null)
                             .commit();
-//                    blankFragment.addText("Did it work", 20, false);
-
                 }
             });
         }

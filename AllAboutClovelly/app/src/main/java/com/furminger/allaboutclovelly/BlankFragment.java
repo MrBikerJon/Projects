@@ -1,6 +1,8 @@
 package com.furminger.allaboutclovelly;
 
+import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,12 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.furminger.allaboutclovelly.databinding.FragmentBlankBinding;
 import com.furminger.allaboutclovelly.databinding.FragmentTextBinding;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Text;
 
@@ -41,8 +45,10 @@ public class BlankFragment extends Fragment {
     private String mParam2;
     private Button button;
     private FragmentBlankBinding binding;
-    public String titleText;
-    public String detailText;
+    private String titleText;
+    private String detailText;
+    private Drawable drawable;
+
 
     private final String TAG = "mapDemo";
 
@@ -50,10 +56,11 @@ public class BlankFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public BlankFragment(String titleText, String detailText) {
+    public BlankFragment(String titleText, String detailText, Drawable drawable) {
         // Required empty public constructor
         this.titleText = titleText;
         this.detailText = detailText;
+        this.drawable = drawable;
     }
 
     /**
@@ -87,6 +94,11 @@ public class BlankFragment extends Fragment {
 //        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         binding = FragmentBlankBinding.inflate(inflater, container, false);
 
+        // hide the floating action button while in the detail view
+        Context context = getActivity();
+        MainActivity parentActivity = ((MainActivity) context);
+        parentActivity.fabHide();
+
         return binding.getRoot();
 //        return view;
     }
@@ -116,6 +128,8 @@ public class BlankFragment extends Fragment {
         titleText.setText(this.titleText);
         TextView detailText = (TextView) getView().findViewById(R.id.textViewDescription);
         detailText.setText(this.detailText);
+        ImageView imageView = (ImageView) getView().findViewById(R.id.imageView2);
+        imageView.setImageDrawable(drawable);
     }
 
 
@@ -140,7 +154,21 @@ public class BlankFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        // show the floating action button again when this fragment is gone
+        Context context = getActivity();
+        MainActivity parentActivity = ((MainActivity) context);
+        parentActivity.fabShow();
+
         binding = null;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+
+
     }
 
 }

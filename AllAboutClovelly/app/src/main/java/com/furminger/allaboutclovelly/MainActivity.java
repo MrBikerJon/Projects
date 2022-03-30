@@ -22,6 +22,7 @@ import com.furminger.allaboutclovelly.ui.main.MapsFragment;
 import com.furminger.allaboutclovelly.ui.main.TextFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -110,10 +111,25 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         });
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    /**
+     * method called by the BlankFragment when it's created, to hide the Floating Action Button
+     */
+    public void fabHide() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide();
+    }
+
+    /**
+     * method called by the BlankFragment when it's destroyed, to show the Floating Action Button
+     */
+    public void fabShow() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.show();
     }
 
     private void breakPhotoConstraints(ConstraintSet set) {
