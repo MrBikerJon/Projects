@@ -1,20 +1,25 @@
 package com.ebookfrenzy.fragmentexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+//import com.ebookfrenzy.fragmentexample.databinding.FragmentToolbarBinding;
 import com.ebookfrenzy.fragmentexample.databinding.FragmentToolbarBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.content.Context;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,17 +53,17 @@ public class ToolbarFragment extends Fragment implements SeekBar.OnSeekBarChange
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.seekBar1.setOnSeekBarChangeListener(this);
-        binding.button1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                buttonClicked(v);
-            }
-        });
+//        binding.seekBar1.setOnSeekBarChangeListener(this);
+//        binding.button1.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                buttonClicked(v);
+//            }
+//        });
     }
 
     public void buttonClicked (View view) {
-        activityCallback.onButtonClick(seekValue,
-                binding.editText1.getText().toString());
+//        activityCallback.onButtonClick(seekValue,
+//                binding.editText1.getText().toString());
     }
 
     @Override
@@ -116,20 +121,38 @@ public class ToolbarFragment extends Fragment implements SeekBar.OnSeekBarChange
         }
     }
 
-    private FragmentToolbarBinding binding;
+//    private FragmentToolbarBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_toolbar, container, false);
-        binding = FragmentToolbarBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+//        binding = FragmentToolbarBinding.inflate(inflater, container, false);
+//        return binding.getRoot();
+
+        View v = inflater.inflate(R.layout.fragment_toolbar, container, false);
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+
+//        fab.setOnClickListener(view -> {
+//            Log.i("TAG", "It worked");
+//            Toast.makeText(getActivity().getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+//
+////            Intent intent = new Intent(getActivity(), FoodJournalEntry.class);
+////            startActivity(intent);
+//        });
+//
+        return v;
+    }
+
+    public void fabClicked() {
+        Log.i("TAG", "It worked");
+//        Toast.makeText(getActivity().getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+//        binding = null;
     }
 }

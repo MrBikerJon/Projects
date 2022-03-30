@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ebookfrenzy.fragmentexample.databinding.ActivityMainBinding;
 
@@ -25,4 +27,11 @@ public class MainActivity extends FragmentActivity implements ToolbarFragment.To
         View view = binding.getRoot();
         setContentView(view);
     }
+
+
+    public void fabClicked(View v) {
+        Log.i("TAG", "It worked");
+        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+    }
+
 }

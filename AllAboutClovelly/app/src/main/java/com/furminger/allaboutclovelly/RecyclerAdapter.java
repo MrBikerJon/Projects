@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.furminger.allaboutclovelly.ui.main.ListFragment;
@@ -26,9 +27,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     private final String TAG = "mapDemo";
     private static Context context;
-    private switchBlankFragment;
-
-
+    private static BlankFragment blankFragment;
     private Map<String, PointOfInterest> pointsOfInterest;
 
     /**
@@ -56,27 +55,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     // 1. open a new window
                     // 2. display the correct point of interest details related to that position
 
-                    String str = itemTitle.getText().toString();
-//                    ((MainActivity)context).newDetailsFragment(str);
-                    displayBlankFragment(str);
-
                     Snackbar.make(view, "Click detected on item " + (position + 1),
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
-
-
                     // Open a new BlankFragment to display the details. This should be done by the Activity in the Callback
                     // https://stackoverflow.com/questions/34310592/how-open-fragment-from-recyclerview-adaptercardadapter-viewholder
-//                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-//                    BlankFragment blankFragment = new BlankFragment();
-////                    textFragment.clearTextFragment();
-////                    textFragment.addText("Hello world", 20, false);
-//                    activity.getSupportFragmentManager()
-//                            .beginTransaction().
-//                            replace(R.id.activity_main, blankFragment)
-//                            .addToBackStack(null)
-//                            .commit();
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+//                    blankFragment = (BlankFragment) activity.getSupportFragmentManager().findFragmentByTag("blank_tag");
+
+                    BlankFragment blankFragment = new BlankFragment(itemTitle.getText().toString(), itemDetail.getText().toString());
+//                    textFragment.clearTextFragment();
+//                    textFragment.addText("Hello world", 20, false);
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.activity_main, blankFragment)
+                            .addToBackStack(null)
+                            .commit();
+//                    blankFragment.addText("Did it work", 20, false);
+
                 }
             });
         }
@@ -143,13 +141,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //        Drawable newImage = res.getDrawable(getDrawableIdentifier(context, photoName), null);
                 //MainActivity.getContext().getDrawable(getDrawableIdentifier(context, photoName));
         viewHolder.itemImage.setImageDrawable(newImage);
-    }
-
-    @Override
-    public void onAttach(Context context)
-    {
-        super.onCreate();
-
     }
 
     @Override

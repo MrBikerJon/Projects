@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, RecyclerAdapter.switchBlankFragment {
+public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
 
     private final String TAG = "mapDemo";
 
@@ -69,15 +69,17 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         // create a list fragment
         ListFragment newListFragment = new ListFragment();
-        BlankFragment newBlankFragment = new BlankFragment();
+
+        // create a blank fragment, that is called when user clicks on an item in the recyclerView
+//        BlankFragment blankFragment = new BlankFragment();
 
         // create a fragment manager
         fragmentManager = getSupportFragmentManager();
         // add a new list_fragment to the view, with a tag so it can be accessed by the fragment manager
         fragmentManager.beginTransaction()
                 .add(R.id.activity_main, newListFragment, "list_tag")
-                .add(R.id.activity_main, newBlankFragment, "blank_tag")
-                .hide(newBlankFragment)
+//                .add(R.id.activity_main, blankFragment, "blank_tag")
+//                .hide(blankFragment)
                 .commitNow();
 
         // allocate Fragments so they can be accessed by fragment manager
@@ -86,10 +88,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
 
         // display correct Fragment(s) depending on view chosen by user
-        if(currentFragment == MAP_TEXT_FRAGMENTS) {
+        if (currentFragment == MAP_TEXT_FRAGMENTS) {
             showMapTextFragments();
-        }
-        else if(currentFragment == LIST_FRAGMENT) {
+        } else if (currentFragment == LIST_FRAGMENT) {
             showListFragment();
         }
 
@@ -98,18 +99,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
             public void onClick(View view) {
 
                 // display correct Fragment(s) depending on view chosen by user
-                if(currentFragment == MAP_TEXT_FRAGMENTS) {
+                if (currentFragment == MAP_TEXT_FRAGMENTS) {
                     showListFragment();
                     currentFragment = LIST_FRAGMENT;
-                }
-                else {
+                } else {
                     showMapTextFragments();
                     currentFragment = MAP_TEXT_FRAGMENTS;
                 }
             }
         });
-
-
     }
 
 
@@ -127,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     /**
      * obtain a reference to the fragment_text instance and call the changeText() method on the object
+     *
      * @param marker The marker coming from the map fragment
      */
     public boolean onMarkerClick(Marker marker) {
@@ -155,13 +154,12 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         textFragment.addText(newDescriptionText, 14, false);
 
         // Set the photo(s) in the Text fragment
-        for(int i = 0; i < photos.size(); i++) {
+        for (int i = 0; i < photos.size(); i++) {
             @SuppressLint("UseCompatLoadingForDrawables") Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photos.get(i)), null);
             textFragment.addPhoto(newImage);
         }
         return true;
     }
-
 
     public void showMapTextFragments() {
         // hide the ListFragment
@@ -212,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         return pointsOfInterest;
     }
 
-
     public PointOfInterest getPointOfInterest(String key) {
         return pointsOfInterest.get(key);
     }
@@ -224,11 +221,11 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         String fileName;
         String languagename = Locale.getDefault().getDisplayLanguage();
-        switch(languagename) {
-            case "English" :
+        switch (languagename) {
+            case "English":
                 fileName = "pointsofinterest.xml";
                 break;
-            case "Deutsch" :
+            case "Deutsch":
                 fileName = "pointsofinterest_DE.xml";
                 break;
             default:
@@ -244,15 +241,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
             parser.setInput(inputStream, null);
 
             processParsing(parser);
-        }
-        catch (XmlPullParserException | IOException ignored) {}
+        } catch (XmlPullParserException | IOException ignored) { }
     }
 
     private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException {
         int eventType = parser.getEventType();
         PointOfInterest currentPointOfInterest = null;
 
-        while(eventType != XmlPullParser.END_DOCUMENT) {
+        while (eventType != XmlPullParser.END_DOCUMENT) {
             String eltName;
 
             if (eventType == XmlPullParser.START_TAG) {
@@ -299,53 +295,4 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         return drawable;
     }
 
-
-//    /**
-//     * method called by the RecyclerAdapter when a click is detected on an item. This method
-//     * will open a new fragment and display the details related to the item passed across
-//     */
-//
-//    public void newDetailsFragment(String str) {
-//        Log.i(TAG, "Position " + str + " received");
-//
-//        BlankFragment blankFragment = (BlankFragment) getSupportFragmentManager().findFragmentByTag("blank_tag");
-//
-////        BlankFragment blankFragment = new BlankFragment();
-//
-////        assert blankFragment != null;
-//
-//
-//        assert blankFragment != null;
-//        blankFragment.clearTextFragment();
-//        blankFragment.addText(str, 20, true);
-//
-//        this.getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.activity_main, blankFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
-
-
-    @Override
-    public void displayBlankFragment(String position) {
-        Log.i(TAG, "Position " + position + " received");
-
-//        BlankFragment blankFragment = (BlankFragment) getSupportFragmentManager().findFragmentByTag("blank_tag");
-//
-////        BlankFragment blankFragment = new BlankFragment();
-//
-////        assert blankFragment != null;
-//
-//
-//        assert blankFragment != null;
-//        blankFragment.clearTextFragment();
-//        blankFragment.addText(position, 20, true);
-//
-//        this.getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.activity_main, blankFragment)
-//                .addToBackStack(null)
-//                .commit();
-    }
 }

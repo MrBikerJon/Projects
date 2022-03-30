@@ -22,6 +22,8 @@ import com.furminger.allaboutclovelly.databinding.FragmentBlankBinding;
 import com.furminger.allaboutclovelly.databinding.FragmentTextBinding;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import org.w3c.dom.Text;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link BlankFragment#newInstance} factory method to
@@ -39,11 +41,19 @@ public class BlankFragment extends Fragment {
     private String mParam2;
     private Button button;
     private FragmentBlankBinding binding;
+    public String titleText;
+    public String detailText;
 
     private final String TAG = "mapDemo";
 
     public BlankFragment() {
         // Required empty public constructor
+    }
+
+    public BlankFragment(String titleText, String detailText) {
+        // Required empty public constructor
+        this.titleText = titleText;
+        this.detailText = detailText;
     }
 
     /**
@@ -76,6 +86,7 @@ public class BlankFragment extends Fragment {
         // Inflate the layout for this fragment
 //        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         binding = FragmentBlankBinding.inflate(inflater, container, false);
+
         return binding.getRoot();
 //        return view;
     }
@@ -96,6 +107,15 @@ public class BlankFragment extends Fragment {
             }
         });
 
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        TextView titleText = (TextView) getView().findViewById(R.id.textViewTitle);
+        titleText.setText(this.titleText);
+        TextView detailText = (TextView) getView().findViewById(R.id.textViewDescription);
+        detailText.setText(this.detailText);
     }
 
 
