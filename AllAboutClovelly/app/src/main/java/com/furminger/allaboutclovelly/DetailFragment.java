@@ -9,31 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.furminger.allaboutclovelly.databinding.FragmentBlankBinding;
-import com.furminger.allaboutclovelly.databinding.FragmentTextBinding;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.w3c.dom.Text;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BlankFragment#newInstance} factory method to
+ * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BlankFragment extends Fragment {
+public class DetailFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +35,7 @@ public class BlankFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button button;
-    private FragmentBlankBinding binding;
+    private com.furminger.allaboutclovelly.databinding.FragmentDetailBinding binding;
     private String titleText;
     private String detailText;
     private Drawable drawable;
@@ -52,11 +43,11 @@ public class BlankFragment extends Fragment {
 
     private final String TAG = "mapDemo";
 
-    public BlankFragment() {
+    public DetailFragment() {
         // Required empty public constructor
     }
 
-    public BlankFragment(String titleText, String detailText, Drawable drawable) {
+    public DetailFragment(String titleText, String detailText, Drawable drawable) {
         // Required empty public constructor
         this.titleText = titleText;
         this.detailText = detailText;
@@ -72,8 +63,8 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(String param1, String param2) {
-        BlankFragment fragment = new BlankFragment();
+    public static DetailFragment newInstance(String param1, String param2) {
+        DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -92,7 +83,7 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        View view = inflater.inflate(R.layout.fragment_blank, container, false);
-        binding = FragmentBlankBinding.inflate(inflater, container, false);
+        binding = com.furminger.allaboutclovelly.databinding.FragmentDetailBinding.inflate(inflater, container, false);
 
         // hide the floating action button while in the detail view
         Context context = getActivity();
@@ -124,18 +115,12 @@ public class BlankFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        TextView titleText = (TextView) getView().findViewById(R.id.textViewTitle);
+        TextView titleText = (TextView) requireView().findViewById(R.id.textViewTitle);
         titleText.setText(this.titleText);
-        TextView detailText = (TextView) getView().findViewById(R.id.textViewDescription);
+        TextView detailText = (TextView) requireView().findViewById(R.id.textViewDescription);
         detailText.setText(this.detailText);
-        ImageView imageView = (ImageView) getView().findViewById(R.id.imageView2);
+        ImageView imageView = (ImageView) requireView().findViewById(R.id.imageView2);
         imageView.setImageDrawable(drawable);
-    }
-
-
-    public void clearTextFragment() {
-        ConstraintLayout constraintLayout = binding.frameLayout;
-        constraintLayout.removeAllViews();
     }
 
     /**
