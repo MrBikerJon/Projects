@@ -63,4 +63,36 @@
         <placephoto>clovellycourtgardens</placephoto>
     </pointofinterest>
 
+    <pointofinterest>
+        <key>Crazy Kate's</key>
+        <id>6</id>
+        <latitude>50.99860042650978</latitude>
+        <longitude>-4.398354842854962</longitude>
+        <placetitle>Crazy Kate's</placetitle>
+        <placedescription>Crazy Kate’s Cottage was named after Kate Lyall, who died in 1736. Kate’s husband was a fisherman and she would watch him from her upper window as he fished in the bay. Consequently one day, a terrible squall blew up and he was drowned before her eyes. This terrible sight drove her mad, and she remained demented until the day of her death. On that tragic day, she put on her wedding dress and walked into the sea to join her husband in his watery grave. Hence why the cottage came to be known as part of village history. This cottage with a balcony, overlooking the harbour and coastline, is said to be the oldest one in Clovelly.</placedescription>
+        <placephoto>crazykatesold</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>All Saint's Church</key>
+        <id>7</id>
+        <latitude>51.00089922878341</latitude>
+        <longitude>-4.410226915146374</longitude>
+        <placetitle>All Saint's Church</placetitle>
+        <placedescription>Standing in the grounds of Clovelly Court, and bounded by the Court's walled garden, is the attractive Norman church of All Saints.
+            The church was begun in the 12th century on the site of an earlier timber building. The Norman church was a simple cruciform building, consisting of a nave, chancel, and transepts. As the population of Clovelly grew, more space was needed, and in the 14th century a north aisle was added. The renovation may have been carried out by William Cary, lord of the manor, who received permission to make the church collegiate in 1387. Cary's plan was to establish a college of 6 chaplains under a Warden, but the plans were never implemented, and All Saints remained a simple parish church. An excellent wagon was roof was added as part of the 14th-century rebuilding. There is no chancel arch - a characteristic feature of north Devon churches - so the wagon roof extends without a break from the west end of the nave to the east end of the chancel. Another change came in 1699 when galleries were erected by the rector, Rev William Prince. The Cary's of Clovelly Court supported the Royalist cause in the Civil War. An old story suggests that they had the lead stripped from the church roof to make bullets for fighting against Parliament. The porch dates to 1450, with a Norman outer doorway. The church interior is crammed with fascinating memorials, many to the lords of Clovelly manor. The 1885 east window was designed by the famous late Victoria artist Charles Eamer Kempe, in honour of Nevile Fane. The Fane coat of arms is depicted in the top light, along with the arms of the Williams and Hamlyn families, linked to the Fanes by marriage. On the south side of the chancel is a large Elizabethan memorial in 'six-poster' style commemorating Sir Robert Cary, who died in 1586. Cary was a lawyer, who had the misfortune to attend the Exeter Assizes, when an outbreak of jail fever struck down the prisoners, judges witnesses, lawyers, and the jury, most of whom died. Beside the altar are three memorial brasses. One of these is thought to be Robert Cary, father of the lawyer. The brass is dated 1540 but it has been set into a much earlier grave slab to Hugh Myghellion, who died in 1488. Beside Robert Cary's brass is a 15th-century brass to an unknown knight, possibly Sir William Cary, was was executed for treason following the Battle of Tewkesbury in 1471. Curiously, both Cary brasses were made in the same workshop in London and probably shipped to Clovelly when finished. The third brass was made in the 1860s and depicts a Bishop's crozier. It is set in a much earlier grave slab to George Cary, who died in 1601. Cary was a lawyer and served as High Sheriff of Devon in 1587. He was responsible for building the pier in Clovelly harbour. Also near the altar is a slate memorial to Phillipa Cecond, daughter of William Cary, who died in 1633. On the chancel walls are more Cary memorials, including a monument to William Cary (1576-1652). Cary was depicted in Charles Kingsley's novel 'Westward Ho!'. Opposite the William Cary memorial is another wall monument to his son, Sir Robert Cary (d. 1675), an aide to Charles II. Beneath the monument is a brass plaque to Kingsley himself, who grew up in Clovelly, where his father was curate from 1826. Also in the chancel is a memorial to Dr George Cary, rector from 1639 and later Dean of Exeter. Cary twice refused the bishopric of Exeter. A poignant touch is a memorial to the Dean's infant daughter, with a skeleton holding a spade and pointing to the earth. The inscription rather tellingly reads, 'There lye ye ashes'. Other interior highlights include the Jacobean pulpit, carved in 1634, with an hourglass given in 1635 by William Cary. The hourglass is mounted on a pedestal made from driftwood found on the beach. In the Lady Chapel is a modern statue of the Madonna, but it stands on a 17th century wooden frame. One final mention should be made of the memorial to Christine Hamlyn (d. 1936). She was lord of the manor for 52 years, and her initials can be found on quite a few cottages in the village. Closely linked to All Saints is St Peter's Chapel, tucked into a quiet lane off the main street through the village. The chapel was opened in 1846 to provide a place of worship for residents of Clovelly who could not easily climb the steep, cobbled streets to All Saints on the cliff-top. The chapel is simply furnished, but is well worth a look for the striking murals painted by a local artist named Fiona Creighton-Balfour.</placedescription>
+        <placephoto>allsaintschurch</placephoto>
+    </pointofinterest>
+
+    <pointofinterest>
+        <key>St Peter's Chapel</key>
+        <id>8</id>
+        <latitude>50.9978543577469</latitude>
+        <longitude>-4.3992769666813265</longitude>
+        <placetitle>St Peter's Chapel</placetitle>
+        <placedescription>St Peter’s Chapel lies in the heart of the village. It was long used as a place of worship and then consecrated as a chapel on 29th of November 1948. This was at the behest of the vicar of the parish at the time, the Reverend A. S. Chandler. Inside the Chapel are the most colourful murals painted in the 1990s by the well-known North Devon artist, Fiona Balfour. It is such a pretty and peaceful chapel along the path past the Kingsley Museum. St Peter’s is the focal point of parishioners in the village who cannot manage the climb to the parish church.  Thus it offers support and comfort to the community.</placedescription>
+        <placephoto>stpeterschapel</placephoto>
+    </pointofinterest>
+
+
 </pointsofinterest>

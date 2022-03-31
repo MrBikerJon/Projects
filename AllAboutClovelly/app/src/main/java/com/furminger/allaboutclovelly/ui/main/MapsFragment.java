@@ -129,8 +129,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         } catch (ClassCastException e) {
             throw new ClassCastException(context + " must implement OnMarkerClickListener");
         }
-
-
     }
 
     /**
@@ -147,7 +145,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentMapsBinding.inflate(inflater, container, false);
-
         return binding.getRoot();
     }
 
@@ -166,34 +163,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
-
         }
     }
 
     private void addAllMarkers() {
 
         for(PointOfInterest pointOfInterest : ((MainActivity) getActivity()).getPointsOfInterest().values()) {
-            addPointOfInterestMarker(pointOfInterest);
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(pointOfInterest.getLatitude(), pointOfInterest.getLongitude()))
+                    .title(pointOfInterest.getPlaceTitle()));
         }
-    }
-
-    /**
-     * Method to add a marker to the map. Takes in a pointOfInterest object
-     * @param pointOfInterest
-     */
-    public void addPointOfInterestMarker(PointOfInterest pointOfInterest) {
-
-        double latitude = pointOfInterest.getLatitude();
-        double longitude = pointOfInterest.getLongitude();
-        String placeTitle = pointOfInterest.getPlaceTitle();
-        String placeDescription = pointOfInterest.getPlaceDescription();
-
-        LatLng position = new LatLng(latitude, longitude);
-
-        mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(placeTitle)
-                .snippet(placeDescription));
     }
 
 }
