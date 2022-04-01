@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     private Fragment mapsFragment;
     private Fragment textFragment;
     private Fragment listFragment;
+    private FloatingMarkerTitlesOverlay floatingMarkerTitlesOverlay;
+    private Fragment detailFragment;
+
     private final Map<String, PointOfInterest> pointsOfInterest = new HashMap<>();
 
     @Override
@@ -71,22 +74,19 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
         // create a list fragment
         ListFragment newListFragment = new ListFragment();
 
-        // create a blank fragment, that is called when user clicks on an item in the recyclerView
-//        BlankFragment blankFragment = new BlankFragment();
-
         // create a fragment manager
         fragmentManager = getSupportFragmentManager();
         // add a new list_fragment to the view, with a tag so it can be accessed by the fragment manager
         fragmentManager.beginTransaction()
                 .add(R.id.activity_main, newListFragment, "list_tag")
-//                .add(R.id.activity_main, blankFragment, "blank_tag")
-//                .hide(blankFragment)
                 .commitNow();
 
         // allocate Fragments so they can be accessed by fragment manager
         mapsFragment = getSupportFragmentManager().findFragmentByTag("map_tag");
         textFragment = getSupportFragmentManager().findFragmentByTag("text_tag");
         listFragment = getSupportFragmentManager().findFragmentByTag("list_tag");
+
+        floatingMarkerTitlesOverlay = findViewById(R.id.mapoverlay);
 
         // display correct Fragment(s) depending on view chosen by user
         if (currentFragment == MAP_TEXT_FRAGMENTS) {
@@ -148,43 +148,24 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         // the key for the HashMap is the Marker Title
         String key = marker.getTitle();
-
-        setCurrentPointOfInterest(key);
-
-        // get the PointOfInterest object from the HashMap using the key
-        PointOfInterest poi = getPointOfInterest(key);
-
-        // get the text and photo from the PointOfInterest object
-        String newTitleText = poi.getPlaceTitle();
-        String newDescriptionText = poi.getPlaceDescription();
-        ArrayList<String> photos = poi.getPlacePhotos();
-
-        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
-
-        // clear text and photos
-        assert textFragment != null;
-        textFragment.clearTextFragment();
-
-        // Set the text in the Text fragment
-        textFragment.addText(newTitleText, 20, true);
-        textFragment.addText(newDescriptionText, 14, false);
-
-        // Set the photo(s) in the Text fragment
-        for (int i = 0; i < photos.size(); i++) {
-            @SuppressLint("UseCompatLoadingForDrawables") Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photos.get(i)), null);
-            textFragment.addPhoto(newImage);
+        // call the method to update the text fragment using the key
+        if(key != null) {
+            updateTextFragment(key);
         }
+
         return true;
     }
 
     public void showMapTextFragments() {
-        // hide the ListFragment
+        // hide the ListFragment and show the map and text fragments
         fragmentManager.beginTransaction()
                 .hide(listFragment)
-                // show the map and text fragment
                 .show(mapsFragment)
                 .show(textFragment)
                 .commitNow();
+
+        // show the map overlay with the marker titles
+        floatingMarkerTitlesOverlay.setVisibility(View.VISIBLE);
 
         // code to determine screen orientation
         int orientation = this.getResources().getConfiguration().orientation;
@@ -213,13 +194,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     public void showListFragment() {
 
-        // hide the List and map Fragments
+        // hide the List and map Fragments and show the list fragment
         fragmentManager.beginTransaction()
                 .hide(mapsFragment)
                 .hide(textFragment)
-                // show the list fragment
                 .show(listFragment)
                 .commitNow();
+
+        // hide the map overlay with the marker titles
+        floatingMarkerTitlesOverlay.setVisibility(View.INVISIBLE);
     }
 
     public Map<String, PointOfInterest> getPointsOfInterest() {
@@ -309,6 +292,53 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMarke
     public Drawable getPhoto(String photoName) {
         @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = getResources().getDrawable(getDrawableIdentifier(this, photoName), null);
         return drawable;
+    }
+
+    public void showOnMap(String titleText) {
+
+        Log.i(TAG, "TitleText = " + titleText);
+        showMapTextFragments();
+        // TODO try converting variable type above to MapsFragment from Fragment
+        MapsFragment mapsFragment2 = (MapsFragment) getSupportFragmentManager().findFragmentByTag("map_tag");
+
+
+        PointOfInterest poi = getPointOfInterest(titleText);
+
+        // get the latitude and longitude from the PointOfInterest object, and call a method to zoom in on that point
+        double latitude = poi.getLatitude();
+        double longitude = poi.getLongitude();
+        int zoom = 16;
+        mapsFragment2.zoomToPlace(latitude, longitude, zoom);
+
+        // call a method to update the text fragment using the titleText as the key
+        updateTextFragment(titleText);
+
+    }
+
+    public void updateTextFragment(String key) {
+        // get the PointOfInterest object from the HashMap using the key
+        PointOfInterest poi = getPointOfInterest(key);
+
+        // get the text and photo from the PointOfInterest object
+        String newTitleText = poi.getPlaceTitle();
+        String newDescriptionText = poi.getPlaceDescription();
+        ArrayList<String> photos = poi.getPlacePhotos();
+
+        TextFragment textFragment = (TextFragment) getSupportFragmentManager().findFragmentById(R.id.text);
+
+        // clear text and photos
+        assert textFragment != null;
+        textFragment.clearTextFragment();
+
+        // Set the text in the Text fragment
+        textFragment.addText(newTitleText, 20, true);
+        textFragment.addText(newDescriptionText, 14, false);
+
+        // Set the photo(s) in the Text fragment
+        for (int i = 0; i < photos.size(); i++) {
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable newImage = getResources().getDrawable(getDrawableIdentifier(this, photos.get(i)), null);
+            textFragment.addPhoto(newImage);
+        }
     }
 
 }

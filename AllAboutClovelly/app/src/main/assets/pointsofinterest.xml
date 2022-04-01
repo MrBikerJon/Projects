@@ -94,5 +94,14 @@
         <placephoto>stpeterschapel</placephoto>
     </pointofinterest>
 
+    <pointofinterest>
+        <key>Queen Victoria Fountain</key>
+        <id>9</id>
+        <latitude>50.99738782216444</latitude>
+        <longitude>-4.400510157100661</longitude>
+        <placetitle>Queen Victoria Fountain</placetitle>
+        <placedescription>Queen Victoria Fountain is set into the whitewashed wall at the top of Clovelly’s cobbled street. Its designer and sculptress was Countess Feodora Gleichen, cousin of Queen Victoria. Lady Gleichen was the first female member of the Society of Medallists and the Arts and Crafts Exhibition Society. Elected posthumously 1922, she was also the first female member of the Royal Society of British Sculptors. It is a recognised fact that she was a very strong influence on the Arts and Crafts Movement of her time.  Therefore this fountain is a stylish piece of work in Mansfield stone.  In addition to the head of the monarch, there are swans with wings outstretched and a bowl created in the shape of a scallop shell. The stone fountain is in memory of Queen Victoria [b. 1819, d. 1901]. Commissioned and raised here by Christine Hamlyn in 1901. Lady Gleichen exhibited regularly at the Royal Academy and her celebrated statue of Artemis stands in Hyde Park, London. This is one of two fountains in the village.</placedescription>
+        <placephoto>queenvictoriafountain</placephoto>
+    </pointofinterest>
 
 </pointsofinterest>

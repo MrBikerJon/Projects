@@ -17,6 +17,8 @@ import com.furminger.allaboutclovelly.MainActivity;
 import com.furminger.allaboutclovelly.RecyclerAdapter;
 import com.furminger.allaboutclovelly.databinding.FragmentListBinding;
 
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ListFragment#newInstance} factory method to
@@ -50,7 +52,7 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentListBinding.inflate(inflater, container, false);
 
-        Context context = getActivity().getApplicationContext();
+        Context context = requireActivity().getApplicationContext();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         binding.recyclerView.setLayoutManager(layoutManager);

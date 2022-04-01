@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/card_layout.xml" value="0.2269021739130435" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.2269021739130435" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.33605072463768115" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_map2.xml" value="0.11865942028985507" />

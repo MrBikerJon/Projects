@@ -81,17 +81,15 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         binding = com.furminger.allaboutclovelly.databinding.FragmentDetailBinding.inflate(inflater, container, false);
 
         // hide the floating action button while in the detail view
         Context context = getActivity();
         MainActivity parentActivity = ((MainActivity) context);
+        assert parentActivity != null;
         parentActivity.fabHide();
 
         return binding.getRoot();
-//        return view;
     }
 
 
@@ -105,8 +103,20 @@ public class DetailFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // https://stackoverflow.com/questions/20812922/how-to-close-the-current-fragment-by-using-button-like-the-back-button
-                getActivity().onBackPressed();
+                requireActivity().onBackPressed();
 
+            }
+        });
+
+        // Set an onClick listener for the show on map button, to close the Fragment when clicked
+        button = (Button) view.findViewById(R.id.showOnMapButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Context context = getActivity();
+                MainActivity parentActivity = ((MainActivity) context);
+                requireActivity().onBackPressed();
+                assert parentActivity != null;
+                parentActivity.showOnMap(titleText);
             }
         });
 

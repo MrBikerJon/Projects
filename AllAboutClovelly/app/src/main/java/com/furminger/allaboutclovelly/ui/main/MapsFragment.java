@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,6 +13,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.furminger.allaboutclovelly.FloatingMarkerTitlesOverlay;
 import com.furminger.allaboutclovelly.MainActivity;
+import com.furminger.allaboutclovelly.MarkerInfo;
 import com.furminger.allaboutclovelly.PointOfInterest;
 import com.furminger.allaboutclovelly.R;
 import com.furminger.allaboutclovelly.databinding.FragmentMapsBinding;
@@ -43,6 +47,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private @NonNull
     FragmentMapsBinding binding;
+    private FloatingMarkerTitlesOverlay floatingMarkersOverlay;
     private final String TAG = "mapDemo";
 
     // listener that allows the fragment to call the MainActivity when the marker is clicked
@@ -79,6 +84,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
+            //Initializing FloatingMarkerTitlesOverlay
+            floatingMarkersOverlay = getActivity().findViewById(R.id.mapoverlay);
+            floatingMarkersOverlay.setSource(mMap);
+
             // add all the other markers
             addAllMarkers();
 
@@ -94,12 +103,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mMap.setPadding(0, 0, 0, 0);
 
             // zoom in on the centre of Clovelly
-            LatLng clovelly = new LatLng(50.998128, -4.399118);
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(clovelly)
-                    .zoom(16)
-                    .build();
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            double clovellyLatitude = 50.998128;
+            double clovellyLongitude = -4.399118;
+            int zoom = 16;
+            zoomToPlace(clovellyLatitude, clovellyLongitude, zoom);
 
             // listener for markers
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -169,10 +176,30 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private void addAllMarkers() {
 
         for(PointOfInterest pointOfInterest : ((MainActivity) getActivity()).getPointsOfInterest().values()) {
+//             replaced following section with markers with floating titles
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(pointOfInterest.getLatitude(), pointOfInterest.getLongitude()))
                     .title(pointOfInterest.getPlaceTitle()));
+
+            final long id = 0;
+            final LatLng latLng = new LatLng(pointOfInterest.getLatitude(), pointOfInterest.getLongitude());
+            final String title = pointOfInterest.getPlaceTitle();
+            final int color = Color.BLACK;
+            final MarkerInfo mi = new MarkerInfo(latLng, title, color);
+            mMap.addMarker(new MarkerOptions()
+                    .position(mi.getCoordinates()));
+
+            floatingMarkersOverlay.addMarker(id, mi);
         }
+    }
+
+    public void zoomToPlace(double latitude, double longitude, int zoom) {
+        LatLng latLng = new LatLng(latitude, longitude);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng)
+                .zoom(zoom)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
 }

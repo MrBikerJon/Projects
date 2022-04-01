@@ -15,20 +15,27 @@
         android:tag="map_tag"
         app:layout_constraintBottom_toTopOf="@id/text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_maps" />
+
+    <com.furminger.allaboutclovelly.FloatingMarkerTitlesOverlay
+        android:id="@+id/mapoverlay"
+        android:name="com.furminger.allaboutclovelly.ui.main.FloatingTitlesOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:tag="overlay_tag"
+        app:layout_constraintBottom_toTopOf="@id/text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/text"
         android:name="com.furminger.allaboutclovelly.ui.main.TextFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:padding="10dp"
         android:tag="text_tag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +46,8 @@
     <include
         android:id="@+id/list_fragment"
         layout="@layout/fragment_list"
-    />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
