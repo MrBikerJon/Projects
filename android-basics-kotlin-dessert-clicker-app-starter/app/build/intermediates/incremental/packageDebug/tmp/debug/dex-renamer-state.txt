@@ -1,0 +1,4 @@
+#Tue Apr 12 15:33:17 BST 2022
+base.0=/Users/jonathanfurminger/Documents/GitHub/Projects/android-basics-kotlin-dessert-clicker-app-starter/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
