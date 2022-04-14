@@ -47,7 +47,6 @@ class LetterListFragment : Fragment() {
         setIcon(layoutButton)
     }
 
-
     private fun chooseLayout() {
         when (isLinearLayoutManager) {
             true -> {
@@ -62,19 +61,11 @@ class LetterListFragment : Fragment() {
     }
 
     private fun setIcon(menuItem: MenuItem?) {
-        if(menuItem == null)
+        if (menuItem == null)
             return
 
-        // Set the drawable for the menu icon based on which LayoutManager is currently in use
-
-        // An if-clause can be used on the right side of an assignment if all paths return a value.
-        // The following code is equivalent to
-        // if (isLinearLayoutManager)
-        //     menu.icon = ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
-        // else menu.icon = ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
-
         menuItem.icon =
-            if(isLinearLayoutManager)
+            if (isLinearLayoutManager)
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_grid_layout)
             else ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_linear_layout)
     }
@@ -82,19 +73,13 @@ class LetterListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_switch_layout -> {
-                // Sets isLinearLayoutManager (a boolean) to the opposite value
                 isLinearLayoutManager = !isLinearLayoutManager
-                //Sets layout and icon
                 chooseLayout()
                 setIcon(item)
 
                 return true
             }
-            // Otherwise, do nothing and use the core event handling
 
-            // when clauses require that all possible paths be accounted for explicitly
-            //  for instance both the true and the false cases if the value is a boolean,
-            //  or an else to catch all unhandled cases
             else -> super.onOptionsItemSelected(item)
         }
     }
