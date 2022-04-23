@@ -155,7 +155,7 @@
             <!-- TODO: set the text to the current subtotal value from the view model -->
             <TextView
                 android:id="@+id/subtotal"
-                android:text="@{@string/subtotal_price(viewModel.subtotal)}"
+                android:text="@{@string/subtotal(viewModel.subtotal)}"
 
                 style="@style/Widget.LunchTray.TextView.Subtotal"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -164,6 +164,8 @@ class OrderViewModel : ViewModel() {
      */
     fun resetOrder() {
         // TODO: Reset all values associated with an order
+        _subtotal.value = 0.0
+        _total.value = 0.0
         previousEntreePrice = 0.0
         previousSidePrice = 0.0
         previousAccompanimentPrice = 0.0

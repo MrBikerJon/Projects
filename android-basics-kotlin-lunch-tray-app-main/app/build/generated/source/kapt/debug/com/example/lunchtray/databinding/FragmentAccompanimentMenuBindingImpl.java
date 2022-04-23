@@ -156,10 +156,10 @@ public class FragmentAccompanimentMenuBindingImpl extends FragmentAccompanimentM
         }
         com.example.lunchtray.model.MenuItem viewModelMenuItemsBread = null;
         androidx.lifecycle.LiveData<java.lang.String> viewModelSubtotal = null;
-        java.lang.String subtotalAndroidStringSubtotalPriceViewModelSubtotal = null;
         com.example.lunchtray.ui.order.AccompanimentMenuFragment accompanimentMenuFragment = mAccompanimentMenuFragment;
         java.lang.String viewModelMenuItemsBerriesDescription = null;
         java.lang.String viewModelMenuItemsPicklesGetFormattedPrice = null;
+        java.lang.String subtotalAndroidStringSubtotalViewModelSubtotal = null;
         java.util.Map<java.lang.String,com.example.lunchtray.model.MenuItem> viewModelMenuItems = null;
         java.lang.String viewModelSubtotalGetValue = null;
         java.lang.String viewModelMenuItemsBreadName = null;
@@ -190,8 +190,8 @@ public class FragmentAccompanimentMenuBindingImpl extends FragmentAccompanimentM
                 }
 
 
-                // read @android:string/subtotal_price
-                subtotalAndroidStringSubtotalPriceViewModelSubtotal = subtotal.getResources().getString(R.string.subtotal_price, viewModelSubtotalGetValue);
+                // read @android:string/subtotal
+                subtotalAndroidStringSubtotalViewModelSubtotal = subtotal.getResources().getString(R.string.subtotal, viewModelSubtotalGetValue);
             if ((dirtyFlags & 0xcL) != 0) {
 
                     if (viewModel != null) {
@@ -262,7 +262,7 @@ public class FragmentAccompanimentMenuBindingImpl extends FragmentAccompanimentM
         if ((dirtyFlags & 0xdL) != 0) {
             // api target 1
 
-            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.subtotal, subtotalAndroidStringSubtotalPriceViewModelSubtotal);
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.subtotal, subtotalAndroidStringSubtotalViewModelSubtotal);
         }
     }
     // Listener Stub Implementations

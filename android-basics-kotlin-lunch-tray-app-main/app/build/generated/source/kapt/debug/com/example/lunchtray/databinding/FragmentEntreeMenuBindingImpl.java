@@ -176,11 +176,11 @@ public class FragmentEntreeMenuBindingImpl extends FragmentEntreeMenuBinding imp
         com.example.lunchtray.model.MenuItem viewModelMenuItemsSkillet = null;
         java.lang.String viewModelMenuItemsChiliDescription = null;
         java.lang.String viewModelMenuItemsChiliGetFormattedPrice = null;
-        java.lang.String subtotalAndroidStringSubtotalPriceViewModelSubtotal = null;
         java.lang.String viewModelMenuItemsCauliflowerName = null;
         java.lang.String viewModelMenuItemsPastaGetFormattedPrice = null;
         java.lang.String viewModelMenuItemsPastaDescription = null;
         java.lang.String viewModelMenuItemsCauliflowerDescription = null;
+        java.lang.String subtotalAndroidStringSubtotalViewModelSubtotal = null;
         java.lang.String viewModelSubtotalGetValue = null;
         java.lang.String viewModelMenuItemsChiliName = null;
         com.example.lunchtray.model.MenuItem viewModelMenuItemsChili = null;
@@ -203,8 +203,8 @@ public class FragmentEntreeMenuBindingImpl extends FragmentEntreeMenuBinding imp
                 }
 
 
-                // read @android:string/subtotal_price
-                subtotalAndroidStringSubtotalPriceViewModelSubtotal = subtotal.getResources().getString(R.string.subtotal_price, viewModelSubtotalGetValue);
+                // read @android:string/subtotal
+                subtotalAndroidStringSubtotalViewModelSubtotal = subtotal.getResources().getString(R.string.subtotal, viewModelSubtotalGetValue);
             if ((dirtyFlags & 0xcL) != 0) {
 
                     if (viewModel != null) {
@@ -289,7 +289,7 @@ public class FragmentEntreeMenuBindingImpl extends FragmentEntreeMenuBinding imp
         if ((dirtyFlags & 0xdL) != 0) {
             // api target 1
 
-            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.subtotal, subtotalAndroidStringSubtotalPriceViewModelSubtotal);
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.subtotal, subtotalAndroidStringSubtotalViewModelSubtotal);
         }
     }
     // Listener Stub Implementations

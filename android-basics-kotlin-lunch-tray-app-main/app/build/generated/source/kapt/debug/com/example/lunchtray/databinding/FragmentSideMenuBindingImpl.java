@@ -173,8 +173,8 @@ public class FragmentSideMenuBindingImpl extends FragmentSideMenuBinding impleme
         java.lang.String viewModelMenuItemsSoupDescription = null;
         java.lang.String viewModelMenuItemsPotatoesName = null;
         com.example.lunchtray.model.MenuItem viewModelMenuItemsPotatoes = null;
-        java.lang.String subtotalAndroidStringSubtotalPriceViewModelSubtotal = null;
         com.example.lunchtray.model.MenuItem viewModelMenuItemsSalad = null;
+        java.lang.String subtotalAndroidStringSubtotalViewModelSubtotal = null;
         java.lang.String viewModelMenuItemsRiceDescription = null;
         java.lang.String viewModelMenuItemsRiceName = null;
         java.lang.String viewModelSubtotalGetValue = null;
@@ -203,8 +203,8 @@ public class FragmentSideMenuBindingImpl extends FragmentSideMenuBinding impleme
                 }
 
 
-                // read @android:string/subtotal_price
-                subtotalAndroidStringSubtotalPriceViewModelSubtotal = subtotal.getResources().getString(R.string.subtotal_price, viewModelSubtotalGetValue);
+                // read @android:string/subtotal
+                subtotalAndroidStringSubtotalViewModelSubtotal = subtotal.getResources().getString(R.string.subtotal, viewModelSubtotalGetValue);
             if ((dirtyFlags & 0xcL) != 0) {
 
                     if (viewModel != null) {
@@ -289,7 +289,7 @@ public class FragmentSideMenuBindingImpl extends FragmentSideMenuBinding impleme
         if ((dirtyFlags & 0xdL) != 0) {
             // api target 1
 
-            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.subtotal, subtotalAndroidStringSubtotalPriceViewModelSubtotal);
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.subtotal, subtotalAndroidStringSubtotalViewModelSubtotal);
         }
     }
     // Listener Stub Implementations

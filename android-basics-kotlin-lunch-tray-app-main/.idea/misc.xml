@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/fragment_checkout.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_entree_menu.xml" value="0.36770833333333336" />
         <entry key="app/src/main/res/layout/fragment_side_menu.xml" value="0.36770833333333336" />
+        <entry key="app/src/main/res/layout/fragment_start_order.xml" value="0.1" />
       </map>
     </option>
   </component>
