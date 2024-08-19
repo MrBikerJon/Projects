@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="PaintsDatabase:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/PaintsDatabase_jar</output-path>
-    <root id="archive" name="PaintsDatabase.jar">
-      <element id="module-output" name="PaintsDatabase" />
-    </root>
-  </artifact>
-</component>
